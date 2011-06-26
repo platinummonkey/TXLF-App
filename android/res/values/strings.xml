@@ -2,4 +2,11 @@
 <resources>
     <string name="hello">Hello World, TxlfActivity!</string>
     <string name="app_name">Txlf</string>
+    <string name="event_name">Texas Linux Festival</string>
+    <string name="event_year">TXLF 2012</string>
+    <string name="btn_network">Scan TXLF Badge</string>
+    <string name="btn_sessions">Sessions</string>
+    <string name="btn_venue">Venue</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_sponsors">Sponsors</string>
 </resources>

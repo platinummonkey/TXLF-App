@@ -1,0 +1,23 @@
+Goals for both platforms:
+
+1. QR code reading and importing into contacts (for attendees and sponsors)
+2. Session Listing, with session selecting, information, reminders with venue map pointout and reminders?
+3. Volutneer schedule
+4. RSS feed about TXLF
+5. Social networking site integration? Twitter, FB, etc...
+6. IRC Channel for day of event? (call it whatever you want, a chatroom during the event for the entire day) - could easily just tie this to #txlf
+7. After party reminder details
+8. Attendee Questionaire a must have
+9. Maybe a special sponsor ID so they have access to sponsor questionaire and extra goodies? Reviews/Stats submitted about people attending the event?
+
+
+Server/Backend Requirements according to points above:
+1. QR code generation and information serving
+2. RSS is simple enough to feed clients
+3. RSS
+4. RSS
+5. Twitter, FB, ... (OAuth, etc)
+6. freenode - available, clients need irc client
+7. RSS
+8. Normal Attendee Questionaire webform - client wrap in WebView
+9. Sponsor Questionaire Webform - client wrap in WebView
