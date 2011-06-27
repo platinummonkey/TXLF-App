@@ -1,0 +1,10 @@
+{
+"name": "John Doe",
+"p_work": "1234567890",
+"p_mobile": "6543210987",
+"p_home": "9087654321",
+"email": "john.doe@email.com",
+"web": "http://johndoe.com",
+"organization": "Manager, Some Corporation",
+"w_address": "1234 Fake Street, Austin, TX 12345"
+}

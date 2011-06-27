@@ -9,4 +9,22 @@
     <string name="btn_venue">Venue</string>
     <string name="btn_register">Register</string>
     <string name="btn_sponsors">Sponsors</string>
+    <string name="accountSpinnerLabel">Account</string>
+    <string name="addContactButtonLabel">Add Contact</string>
+    <string name="addContactTitle">Add Contact</string>
+    <string name="allAccounts">All Accounts</string>
+    <string name="contactCreationFailure">Contact creation failed, check logs.</string>
+    <string name="contactEmailLabel">Contact Email</string>
+    <string name="contactNameLabel">Contact Name</string>
+    <string name="contactWorkPhoneLabel">Work Phone</string>
+    <string name="contactHomePhoneLabel">Home Phone</string>
+    <string name="contactMobilePhoneLabel">Mobile Phone</string>
+    <string name="contactWebsiteLabel">Website</string>
+    <string name="contactWorkAddressLabel">Work Address</string>
+    <string name="contactOrganizationLabel">Mobile Phone</string>
+    <string name="save">Save Contact</string>
+    <string name="selectAccountLabel">Select</string>
+    <string name="selectLabel">Select label</string>
+    <string name="targetAccountLabel">Target Account</string>
+    <string name="undefinedTypeLabel">(Undefined)</string>
 </resources>
