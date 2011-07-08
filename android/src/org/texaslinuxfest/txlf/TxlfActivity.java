@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.*;
 import android.util.Log;
 import static org.texaslinuxfest.txlf.Constants.*;
+import org.texaslinuxfest.txlf.Guide;
 
 public class TxlfActivity extends Activity {
 
@@ -109,9 +110,9 @@ public class TxlfActivity extends Activity {
         	int duration = Toast.LENGTH_LONG;
         	Toast toast = Toast.makeText(context, text, duration);
         	toast.show();
-        	// Forward user to market to install Barcode Scanner
+        	// Forward user to market to install Barcode Scanner - this has been disabled for the emulator
         	//Intent goToMarket = new Intent(Intent.ACTION_VIEW)
-        	//	.setData(Uri.parse("market://details?id=come.google.zxing.client.android.SCAN"));
+        	//	.setData(Uri.parse("market://details?id=com.google.zxing.client.android.SCAN"));
         	//startActivity(goToMarket);
         }
 
@@ -145,16 +146,66 @@ public class TxlfActivity extends Activity {
     	String guidetext = getProgramGuide(); // get String
     	Log.i(LOG_TAG, "Retrieved Guide");
     	FileOutputStream fos;
+    	FileOutputStream foso; 
     	try {
     		Log.i(LOG_TAG, "Writing guide file to internal storage");
     		fos = openFileOutput(GUIDEFILE, Context.MODE_PRIVATE);
     		fos.write(guidetext.getBytes());
     		fos.close();
-    		Log.v(LOG_TAG, "Wrote guide file to internal storage");
+    		Log.v(LOG_TAG, "Wrote guide file to internal storage, now trying Object Serialization Write");
+    		
+    		foso = openFileOutput(GUIDEFILE+".obj", Context.MODE_PRIVATE);
+    		ObjectOutputStream oos = new ObjectOutputStream(foso);
+    		
+    		JSONObject jguide = new JSONObject(guidetext);
+    		String year = jguide.getString("year");
+    		Date expires = convertStringToDate(jguide.getString("expires"));
+    		
+    		// create object
+    		Guide guide = new Guide(year, expires);
+    		
+    		// go through sessions
+    		String sessionstext = jguide.getString("sessions");
+    		JSONArray jsessions = new JSONArray(sessionstext);
+    		int i;
+    		for (i=0;i<jsessions.length();i++) {
+    			JSONObject jsession = jsessions.getJSONObject(i);
+    			Integer track = Integer.parseInt(jsession.getString("track"));
+    			Date time = convertStringToDate(jsession.getString("time"));
+    			Date endTime = convertStringToDate(jsession.getString("end_time"));
+    			String speaker = jsession.getString("speaker");
+    			String title = jsession.getString("title");
+    			String summary = jsession.getString("summary");
+    			guide.addSession(track, time, endTime, speaker, title, summary);
+    		}
+    		
+    		// write object to storage
+    		oos.writeObject(guide);
+    		oos.flush();
+    		oos.close();
+    		Log.v(LOG_TAG, "Wrote serialized object to file");
+    		
     	} catch (IOException e) {
     		Log.e(LOG_TAG, "Error Writing guide file to internal storage");
     		e.printStackTrace();
+    	} catch (Exception e) {
+    		Log.e(LOG_TAG, "Other error");
+    		e.printStackTrace();
     	}
+    }
+    
+    public Date convertStringToDate(String dateString) {
+    	// check json expiry date against today
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date date;
+		try {
+			date = format.parse(dateString);
+		} catch (ParseException e) {
+			Log.e(LOG_TAG, "Error parsing expire date");
+			e.printStackTrace();
+			date = new Date();
+		}
+		return date;
     }
     
     public Boolean checkGuideExpiration() {

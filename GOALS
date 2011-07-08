@@ -9,6 +9,7 @@ Goals for both platforms:
 7. After party reminder details
 8. Attendee Questionaire a must have
 9. Maybe a special sponsor ID so they have access to sponsor questionaire and extra goodies? Reviews/Stats submitted about people attending the event?
+10. Event organizer synchronizer - keep main organizers up to date with event day schedule changes and action items. (IRC?, SMS?.. unclear)
 
 
 Server/Backend Requirements according to points above:
