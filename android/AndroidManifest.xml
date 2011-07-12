@@ -20,5 +20,7 @@
             </intent-filter>
         </activity>
 		<activity android:name="AddContact" android:label="@string/addContactTitle"></activity>
+		<receiver android:name=".receiver.AlarmReceiver"></receiver>
+		<service android:name=".app.GuideDownloaderService" android:process=":remote" />
     </application>
 </manifest>

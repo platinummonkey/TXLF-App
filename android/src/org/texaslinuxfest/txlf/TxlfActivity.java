@@ -1,17 +1,10 @@
 package org.texaslinuxfest.txlf;
 
 import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.impl.client.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import android.app.Activity;
+import java.text.*;
+import java.util.*;
+import org.json.*;
+import android.app.*;
 import android.content.*;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -126,72 +119,36 @@ public class TxlfActivity extends Activity {
         	} else {
         		// Guide has expired lets download a new one and save it.
         		Log.i(LOG_TAG, "Guide has expired - need to update");
-        		updateGuide();
+        		//updateGuide(); - instead start service to download
         	}
         } else {
-        	// We need to download the guide.
-        	updateGuide();
+        	// set alarm to update guide then update guide
+        	Context context = getApplicationContext();
+            setRecurringAlarm(context);
+            
+            // start service to download and update guide
+            context.startService(new Intent(this, GuideDownloaderService.class));
         }
 
-        //enable testing
-        //testJSON();
-        //testWriteFile();
-        //testViewGuide();
-        //testDateExpiration();
     }
     
-    public void updateGuide() {
-    	// Call HTTP Get on file from web, then write to internal
-    	//     storage. - minimize web hits
-    	String guidetext = getProgramGuide(); // get String
-    	Log.i(LOG_TAG, "Retrieved Guide");
-    	FileOutputStream fos;
-    	FileOutputStream foso; 
-    	try {
-    		Log.i(LOG_TAG, "Writing guide file to internal storage");
-    		fos = openFileOutput(GUIDEFILE, Context.MODE_PRIVATE);
-    		fos.write(guidetext.getBytes());
-    		fos.close();
-    		Log.v(LOG_TAG, "Wrote guide file to internal storage, now trying Object Serialization Write");
-    		
-    		foso = openFileOutput(GUIDEFILE+".obj", Context.MODE_PRIVATE);
-    		ObjectOutputStream oos = new ObjectOutputStream(foso);
-    		
-    		JSONObject jguide = new JSONObject(guidetext);
-    		String year = jguide.getString("year");
-    		Date expires = convertStringToDate(jguide.getString("expires"));
-    		
-    		// create object
-    		Guide guide = new Guide(year, expires);
-    		
-    		// go through sessions
-    		String sessionstext = jguide.getString("sessions");
-    		JSONArray jsessions = new JSONArray(sessionstext);
-    		int i;
-    		for (i=0;i<jsessions.length();i++) {
-    			JSONObject jsession = jsessions.getJSONObject(i);
-    			Integer track = Integer.parseInt(jsession.getString("track"));
-    			Date time = convertStringToDate(jsession.getString("time"));
-    			Date endTime = convertStringToDate(jsession.getString("end_time"));
-    			String speaker = jsession.getString("speaker");
-    			String title = jsession.getString("title");
-    			String summary = jsession.getString("summary");
-    			guide.addSession(track, time, endTime, speaker, title, summary);
-    		}
-    		
-    		// write object to storage
-    		oos.writeObject(guide);
-    		oos.flush();
-    		oos.close();
-    		Log.v(LOG_TAG, "Wrote serialized object to file");
-    		
-    	} catch (IOException e) {
-    		Log.e(LOG_TAG, "Error Writing guide file to internal storage");
-    		e.printStackTrace();
-    	} catch (Exception e) {
-    		Log.e(LOG_TAG, "Other error");
-    		e.printStackTrace();
-    	}
+    private void setRecurringAlarm(Context context) {
+    	// Sets an alarm for daily updates
+    	// -  service doesn't actually update if file expiration date hasn't expired
+        // set it to start at around 1 AM every day, 
+    	// but we don't want to hit all at once
+        Calendar updateTime = Calendar.getInstance();
+        updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+        updateTime.set(Calendar.HOUR_OF_DAY, 1);
+        updateTime.set(Calendar.MINUTE, 0);
+     
+        Intent downloader = new Intent(context, AlarmReceiver.class);
+        PendingIntent recurringDownload = PendingIntent.getBroadcast(context,
+                0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarms.setInexactRepeating(AlarmManager.RTC,
+                updateTime.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, recurringDownload);
     }
     
     public Date convertStringToDate(String dateString) {
@@ -209,6 +166,7 @@ public class TxlfActivity extends Activity {
     }
     
     public Boolean checkGuideExpiration() {
+    	// TODO update to check object file
     	try {
     		// open file
     		InputStream is = openFileInput(GUIDEFILE);
@@ -259,59 +217,11 @@ public class TxlfActivity extends Activity {
         i.putExtra("w_address", w_address);
         startActivity(i);
     }
-    
-    public void testDateExpiration() {
-    	String olddate = "2011-07-03 13:00:00";
-    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	Date now = new Date();
-    	Date oldtime;
-		try {
-			oldtime = format.parse(olddate);
-		} catch (ParseException e) {
-			Log.e(LOG_TAG, "Error parsing date");
-			e.printStackTrace();
-			oldtime = new Date();
-		}
-    	Log.v(LOG_TAG, "old time: " + oldtime.getTime() + " new time: " + new Date().getTime());
-    	if (now.after(oldtime)) {
-    		Log.v(LOG_TAG, "time has passed");
-    	} else {
-    		Log.v(LOG_TAG, "time has NOT passed");
-    	}
-    }
-    
-    public void testWriteFile() {
-    	String FILENAME = "hello_file";
-    	String string = "hello world!";
-    	
-    	FileOutputStream fos;
-		try {
-			String fd = getFilesDir().toString();
-			Log.v(LOG_TAG, "files directory: " + fd);
-			Log.v(LOG_TAG, "writing file");
-			fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-			fos.write(string.getBytes());
-			fos.close();
-			Log.v(LOG_TAG, "wrote file");
-			Log.v(LOG_TAG, "reading file");
-			InputStream is = openFileInput(FILENAME);
-            byte [] buffer = new byte[is.available()];
-            while (is.read(buffer) != -1);
-            String istext = new String(buffer);
-			Log.v(LOG_TAG, "file text: " + istext);			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    
+        
     public void testViewGuide() {
     	try {
-    		String jsontext = getProgramGuide();
+    		//String jsontext = getProgramGuide();
+    		String jsontext = "TODO FIX";
     		Log.v(LOG_TAG, "Guide json: " + jsontext);
     		JSONObject guide = new JSONObject(jsontext);
     		
@@ -348,72 +258,6 @@ public class TxlfActivity extends Activity {
     		e.printStackTrace();
     	}
     	
-    }
-    
-    public String getProgramGuide() {
-		StringBuilder builder = new StringBuilder();
-		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://platinummonkey.com/test.json");
-		try {
-			HttpResponse response = client.execute(httpGet);
-			StatusLine statusLine = response.getStatusLine();
-			int statusCode = statusLine.getStatusCode();
-			if (statusCode == 200) {
-				HttpEntity entity = response.getEntity();
-				InputStream content = entity.getContent();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-				String line;
-				while ((line = reader.readLine()) != null) {
-					builder.append(line);
-				}
-			} else {
-				Log.e(LOG_TAG, "Failed to download file");
-			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return builder.toString();
-	}
-    
-    public void testJSON() {
-    	// this is just a test!
-    	try {
-        	String x = "";
-            InputStream is = this.getResources().openRawResource(R.raw.qrtest);
-            byte [] buffer = new byte[is.available()];
-            while (is.read(buffer) != -1);
-            String jsontext = new String(buffer);
-            JSONObject post = new JSONObject(jsontext);
-            
-    		Log.v(LOG_TAG, "There are " + post.length()+" contact components");
-    		Log.v(LOG_TAG, post.toString());
-    		
-    		String name = post.getString("name");
-    		String w_phone = post.getString("p_work");
-    		String h_phone = post.getString("p_home");
-    		String m_phone = post.getString("p_mobile");
-    		String email = post.getString("email");
-    		String web = post.getString("web");
-    		String organization = post.getString("name");
-    		String w_address = post.getString("w_address");
-
-            x += "------------\n";
-            x += "Name:" + name + "\n";
-            x += "Work Phone:" + w_phone + "\n\n";
-            x += "Home Phone:" + h_phone + "\n\n";
-            x += "Mobile Phone:" + m_phone + "\n\n";
-            x += "Email:" + email + "\n\n";
-            x += "Website:" + web + "\n\n";
-            x += "Organization:" + organization + "\n\n";
-            x += "Work Address:" + w_address + "\n\n";
-            Log.v(LOG_TAG, x);
-            // start activity and pass values
-            addContact(name, w_phone, h_phone, m_phone, email, web, organization, w_address);
-    	} catch (Exception je) {
-    		Log.v(LOG_TAG, "error loading JSON");
-        }
     }
     
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
