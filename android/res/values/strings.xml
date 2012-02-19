@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, TxlfActivity!</string>
+    <string name="dash"> - </string>
     <string name="app_name">Txlf</string>
     <string name="event_name">Texas Linux Festival</string>
     <string name="event_year">TXLF 2012</string>
@@ -27,4 +28,9 @@
     <string name="selectLabel">Select label</string>
     <string name="targetAccountLabel">Target Account</string>
     <string name="undefinedTypeLabel">(Undefined)</string>
+    <string name="session_track">Track A</string>
+    <string name="session_day">Friday, April 1, 2012</string>
+    <string name="session_day_short1">Fri</string>
+    <string name="session_day_short2">Sat</string>
+    <string name="session_day_sep_blank"> </string>
 </resources>

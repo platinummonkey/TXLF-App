@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="70dip"
+  android:padding="6dip">
+    <TextView
+      android:id="@+id/session_title"
+      android:text="Session Title"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical"
+      android:textSize="22dip"
+      android:textColor="#006772"/>
+    <TextView
+      android:id="@+id/session_time"
+      android:text="08:00-09:00"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:singleLine="true"
+      android:textSize="13dip"
+      android:textColor="#006772" />
+
+</LinearLayout>

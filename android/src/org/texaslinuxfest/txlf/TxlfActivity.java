@@ -6,6 +6,7 @@ import java.util.*;
 import org.json.*;
 import android.app.*;
 import android.content.*;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.*;
 import android.util.Log;
 import static org.texaslinuxfest.txlf.Constants.*;
 import org.texaslinuxfest.txlf.Guide;
+import org.texaslinuxfest.txlf.AlarmReceiver;
 
 public class TxlfActivity extends Activity {
 
@@ -40,7 +42,6 @@ public class TxlfActivity extends Activity {
         //Button listeners
         //Scan Button - Requires Barcode Scanner
         scanButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				// Launch ZXing Barcode Scanner - Get the Result and launch new view
 				Intent intent = new Intent("com.google.zxing.client.android.SCAN");
@@ -51,16 +52,14 @@ public class TxlfActivity extends Activity {
 		});
         //Sessions Button
         sessionsButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//Intent i = new Intent(this, ContactAdder.class);
-		        //startActivity(i);
+				Intent intent = new Intent(TxlfActivity.this, Sessions.class);
+		        startActivity(intent);
 			}
 		});
         //Venue Button
         venueButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//Intent i = new Intent(this, ContactAdder.class);
@@ -69,7 +68,6 @@ public class TxlfActivity extends Activity {
 		});
         //Sponsors Button
         sponsorsButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//Intent i = new Intent(this, ContactAdder.class);
@@ -78,7 +76,6 @@ public class TxlfActivity extends Activity {
 		});
         //Register Button
         registerButton.setOnClickListener(new View.OnClickListener() {
-			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//Intent i = new Intent(this, ContactAdder.class);
@@ -88,7 +85,7 @@ public class TxlfActivity extends Activity {
         //End Buttons
         
         //check if BarcodeScanner is installed...
-        boolean installed = appInstalledOrNot("com.google.zxing.client.android.SCAN");
+        boolean installed = appInstalledOrNot("com.google.zxing.client.android");
         if(installed) {
         	// Barcode Scanner IS installed and we can scan!
         	Log.v(LOG_TAG, "App already installed on your phone");
@@ -120,11 +117,16 @@ public class TxlfActivity extends Activity {
         		// Guide has expired lets download a new one and save it.
         		Log.i(LOG_TAG, "Guide has expired - need to update");
         		//updateGuide(); - instead start service to download
+
+                // start service to download and update guide
+        		Context context = getApplicationContext();
+                context.startService(new Intent(this, GuideDownloaderService.class));
         	}
         } else {
         	// set alarm to update guide then update guide
         	Context context = getApplicationContext();
-            setRecurringAlarm(context);
+            //setRecurringAlarm(context);
+        	AlarmReceiver.setRecurringAlarm(context);
             
             // start service to download and update guide
             context.startService(new Intent(this, GuideDownloaderService.class));
@@ -305,15 +307,17 @@ public class TxlfActivity extends Activity {
     }
     
     private boolean appInstalledOrNot(String uri) {
-    	PackageManager pm = getPackageManager();
-        boolean app_installed = false;
-        try {
-        	pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            app_installed = true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
-        }
-        return app_installed ;
-    }
+    	// This function checks whether or not an application is installed. This does not work for intents, only the root package and does no version checks either!
+    	boolean app_installed = false;
+    	
+    	try {
+    		ApplicationInfo info = getPackageManager().getApplicationInfo(uri, 0);
+    		// application exists
+    		app_installed = true;
+    	} catch( PackageManager.NameNotFoundException e) {
+    		// application doesn't exist
+    		app_installed = false;
+    	}
+    	return app_installed;
+    	}
 }

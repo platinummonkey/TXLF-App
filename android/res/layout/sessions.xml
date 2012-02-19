@@ -3,14 +3,29 @@
   	android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/background">
-    <include layout="@layout/header" android:layout_height="wrap_content" android:id="@+id/include1" android:layout_width="match_parent"></include>
+    android:background="#F0E0B2">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:orientation="vertical"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:layout_gravity="center_vertical">
-        <ViewFlipper android:id="@+id/viewFlipper1" android:layout_width="match_parent" android:layout_height="wrap_content">
+    	<include
+    		layout="@layout/session_day_chooser"
+    		android:layout_height="wrap_content"
+    		android:id="@+id/include_session_header"
+    		android:layout_width="match_parent">
+    	</include>
+    	<include
+    		layout="@layout/session_header"
+    		android:layout_height="wrap_content"
+    		android:id="@+id/include_session_header"
+    		android:layout_width="match_parent">
+    	</include>
+        <ViewFlipper
+        	android:id="@+id/session_day_viewflipper"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content">
+
         </ViewFlipper>
     </LinearLayout>
 </LinearLayout>

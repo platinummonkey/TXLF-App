@@ -1,6 +1,7 @@
 package org.texaslinuxfest.txlf;
 
 import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
+import static org.texaslinuxfest.txlf.Constants.GUIDEURL;
 
 import java.io.*;
 import java.text.ParseException;
@@ -152,7 +153,7 @@ public class GuideDownloaderService extends Service {
     public String getProgramGuide() {
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("http://platinummonkey.com/test.json");
+		HttpGet httpGet = new HttpGet(GUIDEURL);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();

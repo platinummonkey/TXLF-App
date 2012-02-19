@@ -1,8 +1,13 @@
 package org.texaslinuxfest.txlf;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.*;
-import android.net.Uri;
 import android.util.Log;
+import static org.texaslinuxfest.txlf.Constants.GUIDE_UPDATE_HOUR;
+import static org.texaslinuxfest.txlf.Constants.GUIDE_UPDATE_MIN;
 
 public class AlarmReceiver extends BroadcastReceiver {
 	 
@@ -13,9 +18,33 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d(LOG_TAG, "Recurring alarm; requesting download service.");
         // start the download
         Intent downloader = new Intent(context, GuideDownloaderService.class);
-        downloader.setData(Uri
-                .parse("http://feeds.feedburner.com/MobileTuts?format=xml"));
         context.startService(downloader);
+    }
+    
+    public static void cancelRecurringAlarm(Context context) {
+    	// Cancel alarms pointing to this receiver
+        Intent downloader = new Intent(context, AlarmReceiver.class);
+        PendingIntent recurringDownload = PendingIntent.getBroadcast(context,
+                0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarms = (AlarmManager) context
+                .getSystemService(Context.ALARM_SERVICE);
+        alarms.cancel(recurringDownload);
+    }
+    
+    public static void setRecurringAlarm(Context context) {
+    	// sets alarm to be used by this receiver for daily updates
+    	Calendar updateTime = Calendar.getInstance();
+        updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
+        updateTime.set(Calendar.HOUR_OF_DAY, GUIDE_UPDATE_HOUR);
+        updateTime.set(Calendar.MINUTE, GUIDE_UPDATE_MIN);
+     
+        Intent downloader = new Intent(context, AlarmReceiver.class);
+        PendingIntent recurringDownload = PendingIntent.getBroadcast(context,
+                0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarms = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarms.setInexactRepeating(AlarmManager.RTC,
+                updateTime.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, recurringDownload);
     }
  
 }
