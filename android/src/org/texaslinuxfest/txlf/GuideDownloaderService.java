@@ -16,6 +16,7 @@ import android.app.Service;
 import android.content.*;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class GuideDownloaderService extends Service {
 
@@ -29,15 +30,28 @@ public class GuideDownloaderService extends Service {
 
 	@Override
 	public void onCreate() {
+		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
 		// Start up the thread running the service.  Note that we create a
 		// separate thread because the service normally runs in the process's
 		// main thread, which we don't want to block.
-		Thread thr = new Thread(null, dTask, "GuideDownloaderService");
-		thr.start();
+		Log.d(LOG_TAG,"Starting new guide update thread");
+		//Thread thr = new Thread(null, dTask, "GuideDownloaderService");
+		//thr.start();
+		//updateGuide();
+	}
+	
+	@Override
+	public void onStart(Intent intent, int startid) {
+		Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
+		Log.d(LOG_TAG,"2---Starting new guide update thread----2");
+		//Thread thr = new Thread(null, dTask, "GuideDownloaderService");
+		//thr.start();
+		updateGuide();
 	}
 	
 	Runnable dTask = new Runnable() {
         public void run() {
+        	Log.d(LOG_TAG,"Starting dTask runnable -- attempting to update guide");
             // perform the download and update the internal guide
         	updateGuide();
             // Done with our work...  stop the service!
@@ -151,6 +165,7 @@ public class GuideDownloaderService extends Service {
     }
     
     public String getProgramGuide() {
+    	Log.d(LOG_TAG, "Attempting to download GUIDE");
 		StringBuilder builder = new StringBuilder();
 		HttpClient client = new DefaultHttpClient();
 		HttpGet httpGet = new HttpGet(GUIDEURL);

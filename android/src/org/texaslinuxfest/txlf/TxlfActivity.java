@@ -112,10 +112,10 @@ public class TxlfActivity extends Activity {
         	// Check if it has expired and needs updating
         	if(checkGuideExpiration()) {
         		// Guide is still good
-        		Log.i(LOG_TAG, "Guide hasn't expired");
+        		Log.d(LOG_TAG, "Guide hasn't expired");
         	} else {
         		// Guide has expired lets download a new one and save it.
-        		Log.i(LOG_TAG, "Guide has expired - need to update");
+        		Log.d(LOG_TAG, "Guide has expired - need to update");
         		//updateGuide(); - instead start service to download
 
                 // start service to download and update guide
@@ -123,6 +123,7 @@ public class TxlfActivity extends Activity {
                 context.startService(new Intent(this, GuideDownloaderService.class));
         	}
         } else {
+        	Log.e(LOG_TAG, "Guide doesn't exist, attempting to download");
         	// set alarm to update guide then update guide
         	Context context = getApplicationContext();
             //setRecurringAlarm(context);

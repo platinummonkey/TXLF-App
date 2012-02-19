@@ -1,12 +1,20 @@
 package org.texaslinuxfest.txlf;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.Guide.Session;
+import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Date;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.View.OnTouchListener;
@@ -15,6 +23,9 @@ import android.widget.*;
 
 public class Sessions extends Activity {
 
+	private Guide guide;
+	private String LOG_TAG = "Sessions Activity";
+	
 	// choose between day one and day 2
 	private TextView sessionDayTextButton1; // Friday
 	private TextView sessionDayTextButton2; // Saturday
@@ -23,7 +34,7 @@ public class Sessions extends Activity {
 	
 	private ViewFlipper viewFlipper;
 	private GestureDetector gestureDetector;
-	final private ListView lv1;
+	private ListView lv1;
 
 	//http://pareshnmayani.wordpress.com/tag/android-custom-listview-example/
 	//private ArrayList<Object> sessionList;
@@ -86,7 +97,8 @@ public class Sessions extends Activity {
         //prepare track list - prepareLists();
         
         // get sessions
-        this.sessionList = Guide.getSessionsByTrack(0); 
+        this.guide = this.getGuide();
+        this.sessionList = guide.getSessionsByTrack(0); 
         final SessionListAdapter lv1adapter = new SessionListAdapter(this, this.sessionList);
         lv1.setAdapter(lv1adapter);
         lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,6 +119,39 @@ public class Sessions extends Activity {
     	//};
         // });
     };
+    
+    private Guide getGuide() {
+    	try {
+    		// open file
+    		InputStream is = openFileInput(GUIDEFILE);
+    		byte [] buffer = new byte[is.available()];
+    		while (is.read(buffer) != -1);
+    		//String istext = new String(buffer);
+    		ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(buffer));
+    		Guide guide = (Guide) in.readObject();
+    		in.close();
+    		
+    		return guide; 
+    	} catch (Exception e) {
+    		// invalid json file, or some badjuju happened
+    		Log.e(LOG_TAG, "Error loading guide file");
+    		e.printStackTrace();
+    		File file = getBaseContext().getFileStreamPath(GUIDEFILE);
+    		if (file.exists()) {
+    			Log.e(LOG_TAG, "file exists");
+    		} else {
+    			Log.e(LOG_TAG, "file really doesn't exist");
+    		}
+    		// set alarm to update guide then update guide
+        	Context context = getApplicationContext();
+            //setRecurringAlarm(context);
+        	AlarmReceiver.setRecurringAlarm(context);
+            
+            // start service to download and update guide
+            context.startService(new Intent(this, GuideDownloaderService.class));
+    		return new Guide("2012", new Date());
+    	}
+    }
     
     // Add view to viewflipper
     public void addViewToFlipper(View view) {
