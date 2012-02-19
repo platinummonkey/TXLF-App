@@ -12,6 +12,8 @@ public interface Constants {
 	int GUIDE_UPDATE_HOUR = 1; // 1 am
 	int GUIDE_UPDATE_MIN = 0; // 0 minutes
 	
+	String GUIDETYPE = "Guide";
+	
 	// Resource Constants ( Images, Videos, etc..)
 	String MEDIAURL = "http://platinummonkey.com/"; // requires trailing "/"
 	

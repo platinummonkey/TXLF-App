@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.*;
 import android.app.Application;
+import android.util.Log;
 
 @SuppressWarnings("serial")
 public class Guide extends Application implements Serializable {
 	// Defines the guide Object for storage and reading.
 	
+	private String LOG_TAG = "Guide Object";
 	String year;
 	Date expires;
 	private ArrayList<Session> sessions = new ArrayList<Session>();
@@ -200,6 +202,7 @@ public class Guide extends Application implements Serializable {
 		ArrayList<Session> tracks = new ArrayList<Session>();
 		for (Session session : this.sessions) {
 			if (session.track == n) {
+				Log.d(LOG_TAG,"Adding Session for Track " + Integer.toString(n) +": Title: " + session.getTitle());
 				tracks.add(session);
 			}
 		}

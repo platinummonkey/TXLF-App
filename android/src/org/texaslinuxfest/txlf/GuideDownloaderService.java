@@ -150,7 +150,7 @@ public class GuideDownloaderService extends Service {
 		return date;
     }
     
-    public Boolean checkGuideExpiration() {
+    /*public Boolean checkGuideExpiration() {
     	try {
     		// open file
     		InputStream is = openFileInput(GUIDEFILE+".json");
@@ -185,7 +185,7 @@ public class GuideDownloaderService extends Service {
     		e.printStackTrace();
     		return false;
     	}
-    }
+    }*/
     
     public String getProgramGuide() {
     	Log.d(LOG_TAG, "Attempting to download GUIDE");

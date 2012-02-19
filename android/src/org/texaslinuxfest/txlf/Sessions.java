@@ -3,6 +3,7 @@ package org.texaslinuxfest.txlf;
 import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.Guide.Session;
 import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
+import static org.texaslinuxfest.txlf.Constants.GUIDETYPE;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -34,18 +35,27 @@ public class Sessions extends Activity {
 	
 	private ViewFlipper viewFlipper;
 	private GestureDetector gestureDetector;
-	private ListView lv1;
+	private ListView lv_day1;
+	private ListView lv_day2;
 
 	//http://pareshnmayani.wordpress.com/tag/android-custom-listview-example/
 	//private ArrayList<Object> sessionList;
 	//private Session session;
 	
-	private ArrayList<Session> sessionList;
+	private ArrayList<Session> sessionList_day1;
+	private ArrayList<Session> sessionList_day2;
 	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle b = this.getIntent().getExtras();
+        if (b!=null) {
+        	this.guide = (Guide) b.getSerializable(GUIDETYPE);
+        	Log.d(LOG_TAG,"Got guide through intent Serializable");
+        } else {
+        	Log.e(LOG_TAG,"Unable to get guide through Intent");
+        }
         setContentView(R.layout.sessions);
         
         // declare buttons
@@ -90,26 +100,40 @@ public class Sessions extends Activity {
         });
         
         // load views into viewflipper
-        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
-        addViewToFlipper(view);
-        this.lv1 = (ListView) view.findViewById(R.id.SessionListView);
+        View view_day1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        //View view_day2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        addViewToFlipper(view_day1);
+        //addViewToFlipper(view_day2);
+        this.lv_day1 = (ListView) view_day1.findViewById(R.id.SessionListView);
+        //this.lv_day2 = (ListView) view_day2.findViewById(R.id.SessionListView);
         //http://pareshnmayani.wordpress.com/tag/android-custom-listview-example/
-        //prepare track list - prepareLists();
         
         // get sessions
-        this.guide = this.getGuide();
-        this.sessionList = guide.getSessionsByTrack(0); 
-        final SessionListAdapter lv1adapter = new SessionListAdapter(this, this.sessionList);
-        lv1.setAdapter(lv1adapter);
-        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //this.guide = this.getGuide();
+        this.sessionList_day1 = guide.getSessionsByTrack(0);
+        //this.sessionList_day2 = guide.getSessionsByTrack(1);
+        final SessionListAdapter lv_day1_adapter = new SessionListAdapter(this, this.sessionList_day1);
+        //final SessionListAdapter lv_day2_adapter = new SessionListAdapter(this, this.sessionList_day2);
+        lv_day1.setAdapter(lv_day1_adapter);
+        //lv_day2.setAdapter(lv_day2_adapter);
+        lv_day1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 			    // item click listener for listview
-				Session session = (Session) lv1adapter.getItem(position);
+				Session session = (Session) lv_day1_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
 			}
         	
 		});
+        /*lv_day2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+			    // item click listener for listview
+				Session session = (Session) lv_day2_adapter.getItem(position);
+				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+			}
+        	
+		});*/
         	
         //lv1adapter = new SessionViewCustomAdapter(this, title, time);
         //http://www.xtensivearts.com/2009/11/15/quick-tip-2-sorting-lists/

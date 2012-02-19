@@ -12,8 +12,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import android.util.Log;
-import static org.texaslinuxfest.txlf.Constants.*;
 
+import static org.texaslinuxfest.txlf.Constants.*;
 import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.AlarmReceiver;
 
@@ -26,6 +26,9 @@ public class TxlfActivity extends Activity {
 	private Button sponsorsButton;
 	private Button registerButton;
 	private static final String LOG_TAG = "txlf";
+	
+	// GUIDE
+	private Guide guide;
 	
     /** Called when the activity is first created. */
     @Override
@@ -55,7 +58,11 @@ public class TxlfActivity extends Activity {
         sessionsButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(TxlfActivity.this, Sessions.class);
+				Intent intent = new Intent();
+				Bundle b = new Bundle();
+				b.putSerializable(GUIDETYPE, guide);
+				intent.putExtras(b);
+				intent.setClass(TxlfActivity.this, Sessions.class);
 		        startActivity(intent);
 			}
 		});
@@ -107,36 +114,26 @@ public class TxlfActivity extends Activity {
         	//startActivity(goToMarket);
         }
 
-        // Check if TXLF guide has been downloaded
-        File file = getBaseContext().getFileStreamPath(GUIDEFILE);
-        if(file.exists()) {
-        	// Check if it has expired and needs updating
-        	if(checkGuideExpiration()) {
-        		// Guide is still good
-        		Log.d(LOG_TAG, "Guide hasn't expired");
-        	} else {
-        		// Guide has expired lets download a new one and save it.
-        		Log.d(LOG_TAG, "Guide has expired - need to update");
-        		//updateGuide(); - instead start service to download
-
-                // start service to download and update guide
-        		Context context = getApplicationContext();
-                context.startService(new Intent(this, GuideDownloaderService.class));
-        	}
+        boolean guideReady = checkGuide();
+        if (guideReady) {
+        	//Guide is ready and session information is available
+        	Log.v(LOG_TAG, "Guide is ready - Sessions available");
+        	sessionsButton.setEnabled(true);
         } else {
-        	Log.e(LOG_TAG, "Guide doesn't exist, attempting to download");
-        	// set alarm to update guide then update guide
+        	// Guide is not available - .:. session information not available
+        	Log.v(LOG_TAG, "Guide is NOT ready - Sessions unavailable");
+        	sessionsButton.setEnabled(false);
+        	// Toast Message
         	Context context = getApplicationContext();
-            //setRecurringAlarm(context);
-        	AlarmReceiver.setRecurringAlarm(context);
-            
-            // start service to download and update guide
-            context.startService(new Intent(this, GuideDownloaderService.class));
+        	CharSequence text = "Guide is unavailabe!\nPlease allow time to download and restart TXLF App";
+        	int duration = Toast.LENGTH_LONG;
+        	Toast toast = Toast.makeText(context, text, duration);
+        	toast.show();
         }
 
     }
     
-    private void setRecurringAlarm(Context context) {
+    /*private void setRecurringAlarm(Context context) {
     	// Sets an alarm for daily updates
     	// -  service doesn't actually update if file expiration date hasn't expired
         // set it to start at around 1 AM every day, 
@@ -153,7 +150,7 @@ public class TxlfActivity extends Activity {
         alarms.setInexactRepeating(AlarmManager.RTC,
                 updateTime.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, recurringDownload);
-    }
+    }*/
     
     public Date convertStringToDate(String dateString) {
     	// check json expiry date against today
@@ -169,50 +166,59 @@ public class TxlfActivity extends Activity {
 		return date;
     }
     
-    public Boolean checkGuideExpiration() {
-    	// TODO update to check object file
-    	try {
-    		// open file
-    		InputStream is = openFileInput(GUIDEFILE);
-    		byte [] buffer = new byte[is.available()];
-    		while (is.read(buffer) != -1);
-    		//String istext = new String(buffer);
-    		ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(buffer));
-    		Guide guide = (Guide) in.readObject();
-    		in.close();
-    		/*
-    		// open file
-    		InputStream is = openFileInput(GUIDEFILE);
-    		byte [] buffer = new byte[is.available()];
-    		while (is.read(buffer) != -1);
-    		String istext = new String(buffer);
-    		// parse json
-    		JSONObject guide = new JSONObject(istext);
-    		String expires = guide.getString("expires");
-    		// check json expiry date against today
-    		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    		*/
-        	Date now = new Date();
-        	/*Date expireTime;
-    		try {
-    			expireTime = format.parse(expires);
-    		} catch (ParseException e) {
-    			Log.e(LOG_TAG, "Error parsing expire date");
-    			e.printStackTrace();
-    			expireTime = new Date();
-    		}*/
-    		// check if its expired
-        	//if (now.after(expireTime)) {
-        	if (now.after(guide.expires)) {
-        		Log.i(LOG_TAG, "guide has expired");
-        		return false;
-        	} else {
-        		Log.i(LOG_TAG, "guide has NOT expired");
+    public boolean checkGuide() {
+    	// Check if TXLF guide has been downloaded
+        File file = getBaseContext().getFileStreamPath(GUIDEFILE);
+        if(file.exists()) {
+        	// Check if it has expired and needs updating
+        	if(checkGuideExpiration()) {
+        		// Guide is still good and stored in this.guide
+        		Log.d(LOG_TAG, "Guide hasn't expired");
         		return true;
+        	} else {
+        		// Guide has expired lets download a new one and save it.
+        		Log.d(LOG_TAG, "Guide has expired - need to update");
+
+                // start service to download and update guide
+        		Context context = getApplicationContext();
+                context.startService(new Intent(this, GuideDownloaderService.class));
+                return false;
         	}
+        } else {
+        	Log.e(LOG_TAG, "Guide doesn't exist, attempting to download");
+        	// set alarm to update guide then update guide
+        	Context context = getApplicationContext();
+            //setRecurringAlarm(context);sd
+        	AlarmReceiver.setRecurringAlarm(context);
+            
+            // start service to download and update guide
+            context.startService(new Intent(this, GuideDownloaderService.class));
+            return false;
+        }
+    }
+    
+    public Boolean checkGuideExpiration() {
+    	// try to open guide on disk
+    	try {
+    		FileInputStream fis = openFileInput(GUIDEFILE);
+    		ObjectInputStream in = new ObjectInputStream(fis);
+    		Guide g = (Guide) in.readObject();
+    		in.close();
+    		// Check if guide has expired
+    		Date now = new Date();
+    		if (now.after(g.expires)) {
+    			// guide has expired - need to update
+    			return false;
+    		}
+    		// else guide is up-to-date
+    		this.guide = g;
+    		return true;
+    	} catch (IOException e) {
+    		Log.e(LOG_TAG, "Coudln't find guide - IOerror");
+    		e.printStackTrace();
+    		return false;
     	} catch (Exception e) {
-    		// invalid json file, or some badjuju happened
-    		Log.e(LOG_TAG, "Error loading guide file");
+    		Log.e(LOG_TAG, "Couldn't find guide -other exception");
     		e.printStackTrace();
     		return false;
     	}
@@ -231,48 +237,6 @@ public class TxlfActivity extends Activity {
         i.putExtra("organization", organ);
         i.putExtra("w_address", w_address);
         startActivity(i);
-    }
-        
-    public void testViewGuide() {
-    	try {
-    		//String jsontext = getProgramGuide();
-    		String jsontext = "TODO FIX";
-    		Log.v(LOG_TAG, "Guide json: " + jsontext);
-    		JSONObject guide = new JSONObject(jsontext);
-    		
-    		Log.v(LOG_TAG, "There are " + guide.length()+" guide components");
-    		
-    		String year = guide.getString("year");
-    		Log.v(LOG_TAG, "year: " + year);
-    		String expires = guide.getString("expires");
-    		Log.v(LOG_TAG, "expires: " + expires);
-    		String sessionstext = guide.getString("sessions");
-    		Log.v(LOG_TAG, "sessions: " + sessionstext);
-    		
-    		JSONArray sessions = new JSONArray(sessionstext);
-    		Log.v(LOG_TAG, "There are " + sessions.length()+" session entries");
-    		int i;
-    		for (i=0;i<sessions.length();i++) {
-    			JSONObject session = sessions.getJSONObject(i);
-    			String track = session.getString("track");
-    			String time = session.getString("time");
-    			String endTime = session.getString("end_time");
-    			String speaker = session.getString("speaker");
-    			String title = session.getString("title");
-    			String summary = session.getString("summary");
-    			Log.v(LOG_TAG, "-----Session " + Integer.toString(i) + "-----" );
-    			Log.v(LOG_TAG, "track: " + track);
-    			Log.v(LOG_TAG, "time: " + time);
-    			Log.v(LOG_TAG, "end time: " + endTime);
-    			Log.v(LOG_TAG, "speaker: " + speaker);
-    			Log.v(LOG_TAG, "title: " + title);
-    			Log.v(LOG_TAG, "summary: " + summary);
-    		}
-    	} catch(Exception e) {
-    		Log.v(LOG_TAG, "error loading blog JSON");
-    		e.printStackTrace();
-    	}
-    	
     }
     
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -324,7 +288,8 @@ public class TxlfActivity extends Activity {
     	boolean app_installed = false;
     	
     	try {
-    		ApplicationInfo info = getPackageManager().getApplicationInfo(uri, 0);
+    		@SuppressWarnings("unused")
+			ApplicationInfo info = getPackageManager().getApplicationInfo(uri, 0);
     		// application exists
     		app_installed = true;
     	} catch( PackageManager.NameNotFoundException e) {
