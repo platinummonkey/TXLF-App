@@ -9,10 +9,10 @@ import android.app.Application;
 public class Guide extends Application implements Serializable {
 	// Defines the guide Object for storage and reading.
 	
-	private String year;
-	private Date expires;
-	private List<Session> sessions = new ArrayList<Session>();
-	private List<Sponsor> sponsors = new ArrayList<Sponsor>();
+	String year;
+	Date expires;
+	private ArrayList<Session> sessions = new ArrayList<Session>();
+	private ArrayList<Sponsor> sponsors = new ArrayList<Sponsor>();
 	private Venue venue = null;
 	private Afterparty afterparty = null;
 	
@@ -28,7 +28,7 @@ public class Guide extends Application implements Serializable {
 		return this.expires;
 	}
 	
-	class Session implements Comparable<Session> {
+	class Session implements Comparable<Session>, Serializable {
 		private int track;
 		private Date time;
 		private Date endTime;
@@ -79,7 +79,7 @@ public class Guide extends Application implements Serializable {
 		}
 	}
 	
-	class Sponsor implements Comparable<Sponsor> {
+	class Sponsor implements Comparable<Sponsor>, Serializable {
 		private String organization;
 		private int level;
 		private int order;
@@ -130,7 +130,7 @@ public class Guide extends Application implements Serializable {
 		}
 	}
 
-	class Venue {
+	class Venue implements Serializable {
 		@SuppressWarnings("unused")
 		private String name;
 		@SuppressWarnings("unused")
@@ -156,7 +156,7 @@ public class Guide extends Application implements Serializable {
 		}
 	}
 	
-	class Afterparty {
+	class Afterparty implements Serializable {
 		@SuppressWarnings("unused")
 		private String name;
 		@SuppressWarnings("unused")

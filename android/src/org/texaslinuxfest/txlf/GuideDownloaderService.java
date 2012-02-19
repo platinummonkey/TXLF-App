@@ -42,11 +42,9 @@ public class GuideDownloaderService extends Service {
 	
 	@Override
 	public void onStart(Intent intent, int startid) {
-		Toast.makeText(this, "My Service Started", Toast.LENGTH_LONG).show();
-		Log.d(LOG_TAG,"2---Starting new guide update thread----2");
-		//Thread thr = new Thread(null, dTask, "GuideDownloaderService");
-		//thr.start();
-		updateGuide();
+		Toast.makeText(this, "Checking Guide", Toast.LENGTH_LONG).show();
+		Thread thr = new Thread(null, dTask, "GuideDownloaderService");
+		thr.start();
 	}
 	
 	Runnable dTask = new Runnable() {
@@ -73,7 +71,7 @@ public class GuideDownloaderService extends Service {
     		fos.close();
     		Log.v(LOG_TAG, "Wrote guide file to internal storage, now trying Object Serialization Write");
     		
-    		foso = openFileOutput(GUIDEFILE+".obj", Context.MODE_PRIVATE);
+    		foso = openFileOutput(GUIDEFILE, Context.MODE_PRIVATE);
     		ObjectOutputStream oos = new ObjectOutputStream(foso);
     		
     		JSONObject jguide = new JSONObject(guidetext);

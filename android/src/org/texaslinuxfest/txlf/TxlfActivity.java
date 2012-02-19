@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.*;
 import android.util.Log;
 import static org.texaslinuxfest.txlf.Constants.*;
+
 import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.AlarmReceiver;
 
@@ -175,23 +176,34 @@ public class TxlfActivity extends Activity {
     		InputStream is = openFileInput(GUIDEFILE);
     		byte [] buffer = new byte[is.available()];
     		while (is.read(buffer) != -1);
+    		//String istext = new String(buffer);
+    		ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(buffer));
+    		Guide guide = (Guide) in.readObject();
+    		in.close();
+    		/*
+    		// open file
+    		InputStream is = openFileInput(GUIDEFILE);
+    		byte [] buffer = new byte[is.available()];
+    		while (is.read(buffer) != -1);
     		String istext = new String(buffer);
     		// parse json
     		JSONObject guide = new JSONObject(istext);
     		String expires = guide.getString("expires");
     		// check json expiry date against today
     		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		*/
         	Date now = new Date();
-        	Date expireTime;
+        	/*Date expireTime;
     		try {
     			expireTime = format.parse(expires);
     		} catch (ParseException e) {
     			Log.e(LOG_TAG, "Error parsing expire date");
     			e.printStackTrace();
     			expireTime = new Date();
-    		}
+    		}*/
     		// check if its expired
-        	if (now.after(expireTime)) {
+        	//if (now.after(expireTime)) {
+        	if (now.after(guide.expires)) {
         		Log.i(LOG_TAG, "guide has expired");
         		return false;
         	} else {

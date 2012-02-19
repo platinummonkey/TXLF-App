@@ -22,6 +22,6 @@
 		<activity android:name="AddContact" android:label="@string/addContactTitle"></activity>
 		<activity android:name=".Sessions"></activity>
 		<receiver android:name=".receiver.AlarmReceiver"></receiver>
-		<service android:name=".app.GuideDownloaderService" android:process=":remote" />
+		<service android:name=".GuideDownloaderService" android:process=":remote" />
     </application>
 </manifest>
