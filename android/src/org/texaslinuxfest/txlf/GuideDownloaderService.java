@@ -51,11 +51,35 @@ public class GuideDownloaderService extends Service {
         public void run() {
         	Log.d(LOG_TAG,"Starting dTask runnable -- attempting to update guide");
             // perform the download and update the internal guide
-        	updateGuide();
+        	checkAndUpdateGuide();
             // Done with our work...  stop the service!
             GuideDownloaderService.this.stopSelf();
         }
     };
+    
+    public void checkAndUpdateGuide() {
+    	// try to open guide on disk
+    	try {
+    		FileInputStream fis = openFileInput(GUIDEFILE);
+    		ObjectInputStream in = new ObjectInputStream(fis);
+    		Guide guide = (Guide) in.readObject();
+    		in.close();
+    		// Check if guide has expired
+    		Date now = new Date();
+    		if (now.after(guide.expires)) {
+    			// guide has expired - need to update
+    			updateGuide();
+    		}
+    	} catch (IOException e) {
+    		Log.e(LOG_TAG, "Coudln't find guide - IOerror");
+    		e.printStackTrace();
+    		updateGuide(); // try to update guide
+    	} catch (Exception e) {
+    		Log.e(LOG_TAG, "Couldn't find guide -other exception");
+    		e.printStackTrace();
+    		updateGuide(); // try to update guide
+    	}
+    }
     
     public void updateGuide() {
     	// Call HTTP Get on file from web, then write to internal
@@ -65,14 +89,14 @@ public class GuideDownloaderService extends Service {
     	FileOutputStream fos;
     	FileOutputStream foso; 
     	try {
-    		Log.i(LOG_TAG, "Writing guide file to internal storage");
-    		fos = openFileOutput(GUIDEFILE, Context.MODE_PRIVATE);
+    		Log.i(LOG_TAG, "Writing guide JSON file to internal storage");
+    		fos = openFileOutput(GUIDEFILE+".json", Context.MODE_PRIVATE);
     		fos.write(guidetext.getBytes());
     		fos.close();
-    		Log.v(LOG_TAG, "Wrote guide file to internal storage, now trying Object Serialization Write");
+    		Log.v(LOG_TAG, "Wrote guide JSON file to internal storage, now trying Object Serialization Write");
     		
     		foso = openFileOutput(GUIDEFILE, Context.MODE_PRIVATE);
-    		ObjectOutputStream oos = new ObjectOutputStream(foso);
+    		ObjectOutput out = new ObjectOutputStream(foso);
     		
     		JSONObject jguide = new JSONObject(guidetext);
     		String year = jguide.getString("year");
@@ -97,9 +121,10 @@ public class GuideDownloaderService extends Service {
     		}
     		
     		// write object to storage
-    		oos.writeObject(guide);
-    		oos.flush();
-    		oos.close();
+    		Log.v(LOG_TAG, "Attempting to write serialized object to file");
+    		out.writeObject(guide);
+    		out.flush();
+    		out.close();
     		Log.v(LOG_TAG, "Wrote serialized object to file");
     		
     	} catch (IOException e) {
@@ -128,7 +153,7 @@ public class GuideDownloaderService extends Service {
     public Boolean checkGuideExpiration() {
     	try {
     		// open file
-    		InputStream is = openFileInput(GUIDEFILE);
+    		InputStream is = openFileInput(GUIDEFILE+".json");
     		byte [] buffer = new byte[is.available()];
     		while (is.read(buffer) != -1);
     		String istext = new String(buffer);
