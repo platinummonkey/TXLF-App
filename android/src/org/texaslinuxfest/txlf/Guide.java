@@ -31,6 +31,7 @@ public class Guide extends Application implements Serializable {
 	}
 	
 	class Session implements Comparable<Session>, Serializable {
+		private int day;
 		private int track;
 		private Date time;
 		private Date endTime;
@@ -38,8 +39,9 @@ public class Guide extends Application implements Serializable {
 		private String title;
 		private String summary;
 		
-		public Session (int track, Date time, Date endTime, String speaker, String title, String summary) {
+		public Session (int day, int track, Date time, Date endTime, String speaker, String title, String summary) {
 			// defines the session object(s) that are a part of the overall guide.
+			this.day = day;
 			this.track = track;
 			this.time = time;
 			this.endTime = endTime;
@@ -181,8 +183,8 @@ public class Guide extends Application implements Serializable {
 	
 	
 	// Set up adding methods
-	public void addSession(int track, Date time, Date endTime, String speaker, String title, String summary) {
-		sessions.add(new Session(track, time, endTime, speaker, title, summary));
+	public void addSession(int day, int track, Date time, Date endTime, String speaker, String title, String summary) {
+		sessions.add(new Session(day, track, time, endTime, speaker, title, summary));
 	}
 	
 	public void addSponsor(String organization, int level, int order, String levelCommonName, String summary, URI imagePath) {
@@ -198,10 +200,10 @@ public class Guide extends Application implements Serializable {
 	}
 	
 	// set up filtering methods
-	public ArrayList<Session> getSessionsByTrack(int n) {
+	public ArrayList<Session> getSessionsByTrack(int d, int n) {
 		ArrayList<Session> tracks = new ArrayList<Session>();
 		for (Session session : this.sessions) {
-			if (session.track == n) {
+			if ((session.track == n) && (session.day == d)) {
 				Log.d(LOG_TAG,"Adding Session for Track " + Integer.toString(n) +": Title: " + session.getTitle());
 				tracks.add(session);
 			}

@@ -14,6 +14,7 @@ import org.apache.http.impl.client.*;
 import org.json.*;
 import android.app.Service;
 import android.content.*;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -21,6 +22,10 @@ import android.widget.Toast;
 public class GuideDownloaderService extends Service {
 
 	private static final String LOG_TAG = "txlf_GuideDownloaderService";
+	public static final String BROADCAST_ACTION = "org.texaslinuxfest.txlf.GuideUpdate";
+	private final Handler handler = new Handler();
+	Intent intent;
+	private boolean guideUpdated = false;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -30,21 +35,36 @@ public class GuideDownloaderService extends Service {
 
 	@Override
 	public void onCreate() {
-		Toast.makeText(this, "My Service Created", Toast.LENGTH_LONG).show();
-		// Start up the thread running the service.  Note that we create a
-		// separate thread because the service normally runs in the process's
-		// main thread, which we don't want to block.
-		Log.d(LOG_TAG,"Starting new guide update thread");
-		//Thread thr = new Thread(null, dTask, "GuideDownloaderService");
-		//thr.start();
-		//updateGuide();
+		super.onCreate();
+		Log.d(LOG_TAG,"GuideDownloaderService created");
+		intent = new Intent(BROADCAST_ACTION);
 	}
 	
 	@Override
 	public void onStart(Intent intent, int startid) {
 		Toast.makeText(this, "Checking Guide", Toast.LENGTH_LONG).show();
+		// Start up the thread running the service.  Note that we create a
+		// separate thread because the service normally runs in the process's
+		// main thread, which we don't want to block.
 		Thread thr = new Thread(null, dTask, "GuideDownloaderService");
 		thr.start();
+		handler.removeCallbacks(sendUpdatesToUI);
+		handler.post(sendUpdatesToUI);
+	}
+	
+	Runnable sendUpdatesToUI = new Runnable() {
+		public void run() {
+			if (guideUpdated) {
+				updateUI();
+			} else {
+				handler.postDelayed(this, 1000);
+			}
+		}
+	};
+	private void updateUI() {
+		Log.d(LOG_TAG,"Broadcasting Intent to update display");
+		intent.putExtra("GuideDownloadStatus","Guide has been updated");
+		sendBroadcast(intent);
 	}
 	
 	Runnable dTask = new Runnable() {
@@ -52,6 +72,7 @@ public class GuideDownloaderService extends Service {
         	Log.d(LOG_TAG,"Starting dTask runnable -- attempting to update guide");
             // perform the download and update the internal guide
         	checkAndUpdateGuide();
+        	guideUpdated = true;
             // Done with our work...  stop the service!
             GuideDownloaderService.this.stopSelf();
         }
@@ -111,13 +132,14 @@ public class GuideDownloaderService extends Service {
     		int i;
     		for (i=0;i<jsessions.length();i++) {
     			JSONObject jsession = jsessions.getJSONObject(i);
+    			Integer day = Integer.parseInt(jsession.getString("day"));
     			Integer track = Integer.parseInt(jsession.getString("track"));
     			Date time = convertStringToDate(jsession.getString("time"));
     			Date endTime = convertStringToDate(jsession.getString("end_time"));
     			String speaker = jsession.getString("speaker");
     			String title = jsession.getString("title");
     			String summary = jsession.getString("summary");
-    			guide.addSession(track, time, endTime, speaker, title, summary);
+    			guide.addSession(day, track, time, endTime, speaker, title, summary);
     		}
     		
     		// write object to storage

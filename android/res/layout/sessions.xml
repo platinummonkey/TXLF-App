@@ -25,7 +25,18 @@
         	android:id="@+id/session_day_viewflipper"
         	android:layout_width="match_parent"
         	android:layout_height="wrap_content">
-
+			<include
+    			layout="@layout/session_day0"
+    			android:layout_height="wrap_content"
+    			android:id="@+id/include_session_day0"
+    			android:layout_width="match_parent">
+    		</include>
+    		<include
+    			layout="@layout/session_day1"
+    			android:layout_height="wrap_content"
+    			android:id="@+id/include_session_day1"
+    			android:layout_width="match_parent">
+    		</include>
         </ViewFlipper>
     </LinearLayout>
 </LinearLayout>

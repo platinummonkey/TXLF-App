@@ -133,6 +133,31 @@ public class TxlfActivity extends Activity {
 
     }
     
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    	public void onReceive(Context context, Intent intent) {
+    		updateUI(intent);
+    	}
+    };
+    public void onResume() {
+    	super.onResume();		
+    	registerReceiver(broadcastReceiver, new IntentFilter(GuideDownloaderService.BROADCAST_ACTION));
+    }
+    public void onPause() {
+    	super.onPause();
+    	unregisterReceiver(broadcastReceiver);	
+    }
+    
+    
+    private void updateUI(Intent intent) {
+    	String guideStatus = intent.getStringExtra("GuideDownloadStatus");
+    	// Toast Message
+    	Context context = getApplicationContext();
+    	int duration = Toast.LENGTH_LONG;
+    	Toast toast = Toast.makeText(context, guideStatus, duration);
+    	toast.show();
+    	sessionsButton.setEnabled(true);
+    }
+    
     /*private void setRecurringAlarm(Context context) {
     	// Sets an alarm for daily updates
     	// -  service doesn't actually update if file expiration date hasn't expired

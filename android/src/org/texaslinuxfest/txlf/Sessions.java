@@ -33,17 +33,28 @@ public class Sessions extends Activity {
 	
 	//private TextView sessionTrackTextButton;
 	
-	private ViewFlipper viewFlipper;
-	private GestureDetector gestureDetector;
-	private ListView lv_day1;
-	private ListView lv_day2;
+	private ViewFlipper viewFlipperDay;
+	private ViewFlipper viewFlipperTrackDay0;
+	private ViewFlipper viewFlipperTrackDay1;
+	private GestureDetector gestureDetectorDay0;
+	private GestureDetector gestureDetectorDay1;
+	private ListView lv_day0_trackA;
+	private ListView lv_day0_trackB;
+	private ListView lv_day0_trackC;
+	private ListView lv_day1_trackA;
+	private ListView lv_day1_trackB;
+	private ListView lv_day1_trackC;
 
 	//http://pareshnmayani.wordpress.com/tag/android-custom-listview-example/
 	//private ArrayList<Object> sessionList;
 	//private Session session;
 	
-	private ArrayList<Session> sessionList_day1;
-	private ArrayList<Session> sessionList_day2;
+	private ArrayList<Session> sessionList_day0_trackA;
+	private ArrayList<Session> sessionList_day0_trackB;
+	private ArrayList<Session> sessionList_day0_trackC;
+	private ArrayList<Session> sessionList_day1_trackA;
+	private ArrayList<Session> sessionList_day1_trackB;
+	private ArrayList<Session> sessionList_day1_trackC;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -64,8 +75,11 @@ public class Sessions extends Activity {
         //this.sessionTrackTextButton = (TextView)this.findViewById(R.id.session_track_tv);
         
         // setup view flipper and gesture
-        this.viewFlipper = (ViewFlipper) this.findViewById(R.id.session_day_viewflipper);
-        this.gestureDetector = new GestureDetector(new SessionGestureDetector());
+        this.viewFlipperDay = (ViewFlipper) this.findViewById(R.id.session_day_viewflipper);
+        this.viewFlipperTrackDay0 = (ViewFlipper) this.findViewById(R.id.session_track_viewflipper_day0);
+        this.viewFlipperTrackDay1 = (ViewFlipper) this.findViewById(R.id.session_track_viewflipper_day1);
+        this.gestureDetectorDay0 = new GestureDetector(new SessionGestureDetector(this.viewFlipperTrackDay0));
+        this.gestureDetectorDay1 = new GestureDetector(new SessionGestureDetector(this.viewFlipperTrackDay1));
         
         sessionDayTextButton1.setOnClickListener(new View.OnClickListener() {
 
@@ -73,6 +87,7 @@ public class Sessions extends Activity {
 				// TODO Auto-generated method stub
 				// update viewflipper to correct tracks for day
 				//dialog http://developer.android.com/guide/topics/ui/dialogs.html
+				viewFlipperDay.setDisplayedChild(0);
 			}
         	
         });
@@ -82,16 +97,27 @@ public class Sessions extends Activity {
 				// TODO Auto-generated method stub
 				// update viewflipper to correct tracks for day
 				//dialog http://developer.android.com/guide/topics/ui/dialogs.html
+				viewFlipperDay.setDisplayedChild(1);
 			}
         	
         });
         
         // set up gesture swiping of tracks with animations (left/right only)
         //    up/down events and those which are too diagonal or squigly are ignored
-        viewFlipper.setOnTouchListener(new OnTouchListener()
+        viewFlipperTrackDay0.setOnTouchListener(new OnTouchListener()
         {
         	public boolean onTouch(View v, MotionEvent event) {
-        	    if (gestureDetector.onTouchEvent(event)) {
+        	    if (gestureDetectorDay0.onTouchEvent(event)) {
+        	     return true;
+        	    } else {
+        	     return false;
+        	    }
+        	}
+        });
+        viewFlipperTrackDay1.setOnTouchListener(new OnTouchListener()
+        {
+        	public boolean onTouch(View v, MotionEvent event) {
+        	    if (gestureDetectorDay1.onTouchEvent(event)) {
         	     return true;
         	    } else {
         	     return false;
@@ -100,41 +126,118 @@ public class Sessions extends Activity {
         });
         
         // load views into viewflipper
-        View view_day1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
-        //View view_day2 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
-        addViewToFlipper(view_day1);
-        //addViewToFlipper(view_day2);
-        this.lv_day1 = (ListView) view_day1.findViewById(R.id.SessionListView);
-        //this.lv_day2 = (ListView) view_day2.findViewById(R.id.SessionListView);
+        /// Add days
+        Log.d(LOG_TAG,"Creating Day Views");
+        View view_day0 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_day0, null);
+        View view_day1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_day1, null);
+        addViewToDayFlipper(view_day0);
+        addViewToDayFlipper(view_day1);
+        
+        
+        
+        /// Add Tracks
+        Log.d(LOG_TAG,"Creating Track Views");
+        View view_day0_trackA = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        View view_day0_trackB = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        View view_day0_trackC = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        View view_day1_trackA = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        View view_day1_trackB = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        View view_day1_trackC = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
+        
+        Log.d(LOG_TAG,"Adding Track Views to ViewFlippers");
+        addViewToTrackFlipper0(view_day0_trackA);
+        addViewToTrackFlipper0(view_day0_trackB);
+        addViewToTrackFlipper0(view_day0_trackC);
+        addViewToTrackFlipper1(view_day1_trackA);
+        addViewToTrackFlipper1(view_day1_trackB);
+        addViewToTrackFlipper1(view_day1_trackC);
+        
+        Log.d(LOG_TAG,"Assigning ListViews");
+        this.lv_day0_trackA = (ListView) view_day0_trackA.findViewById(R.id.SessionListView);
+        this.lv_day0_trackB = (ListView) view_day0_trackB.findViewById(R.id.SessionListView);
+        this.lv_day0_trackC = (ListView) view_day0_trackC.findViewById(R.id.SessionListView);
+        this.lv_day1_trackA = (ListView) view_day1_trackA.findViewById(R.id.SessionListView);
+        this.lv_day1_trackB = (ListView) view_day1_trackB.findViewById(R.id.SessionListView);
+        this.lv_day1_trackC = (ListView) view_day1_trackC.findViewById(R.id.SessionListView);
         //http://pareshnmayani.wordpress.com/tag/android-custom-listview-example/
         
         // get sessions
         //this.guide = this.getGuide();
-        this.sessionList_day1 = guide.getSessionsByTrack(0);
-        //this.sessionList_day2 = guide.getSessionsByTrack(1);
-        final SessionListAdapter lv_day1_adapter = new SessionListAdapter(this, this.sessionList_day1);
-        //final SessionListAdapter lv_day2_adapter = new SessionListAdapter(this, this.sessionList_day2);
-        lv_day1.setAdapter(lv_day1_adapter);
-        //lv_day2.setAdapter(lv_day2_adapter);
-        lv_day1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        Log.d(LOG_TAG,"Getting Session info for each track");
+        this.sessionList_day0_trackA = guide.getSessionsByTrack(0,0);
+        this.sessionList_day0_trackB = guide.getSessionsByTrack(0,1);
+        this.sessionList_day0_trackC = guide.getSessionsByTrack(0,2);
+        this.sessionList_day1_trackA = guide.getSessionsByTrack(1,0);
+        this.sessionList_day1_trackB = guide.getSessionsByTrack(1,1);
+        this.sessionList_day1_trackC = guide.getSessionsByTrack(1,2);
+        
+        Log.d(LOG_TAG,"Assigning SessionAdapters");
+        final SessionListAdapter lv_day0_trackA_adapter = new SessionListAdapter(this, this.sessionList_day0_trackA);
+        final SessionListAdapter lv_day0_trackB_adapter = new SessionListAdapter(this, this.sessionList_day0_trackB);
+        final SessionListAdapter lv_day0_trackC_adapter = new SessionListAdapter(this, this.sessionList_day0_trackC);
+        final SessionListAdapter lv_day1_trackA_adapter = new SessionListAdapter(this, this.sessionList_day1_trackA);
+        final SessionListAdapter lv_day1_trackB_adapter = new SessionListAdapter(this, this.sessionList_day1_trackB);
+        final SessionListAdapter lv_day1_trackC_adapter = new SessionListAdapter(this, this.sessionList_day1_trackC);
+        
+        Log.d(LOG_TAG,"Setting Adapters");
+        lv_day0_trackA.setAdapter(lv_day0_trackA_adapter);
+        lv_day0_trackB.setAdapter(lv_day0_trackB_adapter);
+        lv_day0_trackC.setAdapter(lv_day0_trackC_adapter);
+        lv_day1_trackA.setAdapter(lv_day1_trackA_adapter);
+        lv_day1_trackB.setAdapter(lv_day1_trackB_adapter);
+        lv_day1_trackC.setAdapter(lv_day1_trackC_adapter);
+        
+        Log.d(LOG_TAG,"ListView OnClickListenters being assigned");
+        lv_day0_trackA.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 			    // item click listener for listview
-				Session session = (Session) lv_day1_adapter.getItem(position);
+				Session session = (Session) lv_day0_trackA_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
 			}
         	
 		});
-        /*lv_day2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        lv_day0_trackB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 			    // item click listener for listview
-				Session session = (Session) lv_day2_adapter.getItem(position);
+				Session session = (Session) lv_day0_trackB_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
 			}
         	
-		});*/
+		});
+        lv_day0_trackC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+			    // item click listener for listview
+				Session session = (Session) lv_day0_trackC_adapter.getItem(position);
+				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+			}
         	
+		});
+        lv_day1_trackA.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+			    // item click listener for listview
+				Session session = (Session) lv_day1_trackA_adapter.getItem(position);
+				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+			}
+        	
+		});
+        lv_day1_trackB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+			    // item click listener for listview
+				Session session = (Session) lv_day1_trackB_adapter.getItem(position);
+				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+			}
+        	
+		});
+        lv_day1_trackC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+			    // item click listener for listview
+				Session session = (Session) lv_day1_trackC_adapter.getItem(position);
+				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+			}
+        	
+		});
+        
+        Log.d(LOG_TAG,"Finished?");
         //lv1adapter = new SessionViewCustomAdapter(this, title, time);
         //http://www.xtensivearts.com/2009/11/15/quick-tip-2-sorting-lists/
         //adapter.sort(new Comparator<String>() {
@@ -178,8 +281,14 @@ public class Sessions extends Activity {
     }
     
     // Add view to viewflipper
-    public void addViewToFlipper(View view) {
-    	viewFlipper.addView(view);
+    public void addViewToTrackFlipper0(View view) {
+    	viewFlipperTrackDay0.addView(view);
+    }
+    public void addViewToTrackFlipper1(View view) {
+    	viewFlipperTrackDay1.addView(view);
+    }
+    public void addViewToDayFlipper(View view) {
+    	viewFlipperDay.addView(view);
     }
     
     // Custom Gesture Adapter
@@ -188,21 +297,27 @@ public class Sessions extends Activity {
 		  private static final int SWIPE_MIN_DISTANCE = 120;
 		  private static final int SWIPE_MAX_OFF_PATH = 250;
 		  private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-
+		  private ViewFlipper vf;
+		  
+		  public SessionGestureDetector(final ViewFlipper vf) {
+			  super();
+			  this.vf = vf;
+		  }
+		  
 		  public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		   System.out.println(" in onFling() :: ");
 		   if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
 		    return false;
 		   if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
 		     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-		    viewFlipper.setInAnimation(inFromRightAnimation());
-		    viewFlipper.setOutAnimation(outToLeftAnimation());
-		    viewFlipper.showNext();
+		    vf.setInAnimation(inFromRightAnimation());
+		    vf.setOutAnimation(outToLeftAnimation());
+		    vf.showNext();
 		   } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
 		     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-		    viewFlipper.setInAnimation(inFromLeftAnimation());
-		    viewFlipper.setOutAnimation(outToRightAnimation());
-		    viewFlipper.showPrevious();
+		    vf.setInAnimation(inFromLeftAnimation());
+		    vf.setOutAnimation(outToRightAnimation());
+		    vf.showPrevious();
 		   }
 		   return super.onFling(e1, e2, velocityX, velocityY);
 		  }
