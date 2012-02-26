@@ -202,6 +202,7 @@ public class Sessions extends TabActivity {
 		});
         
         tabhost = getTabHost();
+        tabhost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
         tabhost.addTab(tabhost.newTabSpec("day0").setIndicator(createTabView(tabhost.getContext(), "Friday")).setContent(R.id.session_tab_layout_day0));
         tabhost.addTab(tabhost.newTabSpec("day1").setIndicator(createTabView(tabhost.getContext(), "Saturday")).setContent(R.id.session_tab_layout_day1));
         tabhost.setCurrentTab(0);

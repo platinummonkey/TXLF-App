@@ -8,7 +8,7 @@
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:layout_gravity="center_vertical"
-    	android:background="#F0E0B2">    	
+    	android:background="#222222">    	
     	<TabWidget android:id="@android:id/tabs"
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content" />
@@ -18,7 +18,8 @@
     	    <LinearLayout android:id="@+id/session_tab_layout_day0"
     	        android:orientation="vertical"
     	        android:layout_height="fill_parent"
-    	        android:layout_width="fill_parent">
+    	        android:layout_width="fill_parent"
+    	        android:background="#F0E0B2">
     	        <TextView
         			android:layout_width="fill_parent"
         			android:gravity="center_horizontal"
@@ -37,7 +38,8 @@
         	<LinearLayout android:id="@+id/session_tab_layout_day1"
     	        android:orientation="vertical"
     	        android:layout_height="fill_parent"
-    	        android:layout_width="fill_parent">
+    	        android:layout_width="fill_parent"
+    	        android:background="#F0E0B2">
         		<TextView
         			android:layout_width="fill_parent"
         			android:gravity="center_horizontal"
