@@ -18,12 +18,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.*;
 import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class Sessions extends TabActivity {
+public class Sessions extends TabActivity implements OnGestureListener {
 
 	private Guide guide;
 	private String LOG_TAG = "Sessions Activity";
@@ -68,8 +71,10 @@ public class Sessions extends TabActivity {
         setContentView(R.layout.sessions);
         
         this.trackTitle_day0 = (TextView) this.findViewById(R.id.session_track_desc_day0);
+        this.trackTitle_day0.setText("Track A");
         this.viewFlipperDay0 = (ViewFlipper) this.findViewById(R.id.session_viewflipper_day0);
         this.trackTitle_day1 = (TextView) this.findViewById(R.id.session_track_desc_day1);
+        this.trackTitle_day1.setText("Track A");
         this.viewFlipperDay1 = (ViewFlipper) this.findViewById(R.id.session_viewflipper_day1);
         
         this.gestureDetectorDay0 = new GestureDetector(new SessionGestureDetector(this.viewFlipperDay0));
@@ -340,4 +345,36 @@ public class Sessions extends TabActivity {
     	outtoRight.setInterpolator(new AccelerateInterpolator());
     	return outtoRight;
     }
+
+	public boolean onDown(MotionEvent arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

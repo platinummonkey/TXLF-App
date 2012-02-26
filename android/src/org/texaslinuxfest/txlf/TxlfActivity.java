@@ -9,6 +9,9 @@ import android.content.*;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.util.Log;
@@ -323,4 +326,29 @@ public class TxlfActivity extends Activity {
     	}
     	return app_installed;
     	}
+    
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_Download:
+            	sessionsButton.setEnabled(false);
+            	Toast.makeText(this, "Forcing Guide Update", Toast.LENGTH_LONG).show();
+            	Log.d(LOG_TAG, "Forcing Guide update");
+
+                // start service to download and update guide
+        		Context context = getApplicationContext();
+        		Intent gds = new Intent(this, GuideDownloaderService.class);
+        		gds.putExtra("force", true);
+                context.startService(gds);
+                break;
+        }
+        return true;
+    }
 }

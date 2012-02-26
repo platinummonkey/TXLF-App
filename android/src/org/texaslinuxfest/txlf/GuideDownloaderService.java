@@ -14,6 +14,7 @@ import org.apache.http.impl.client.*;
 import org.json.*;
 import android.app.Service;
 import android.content.*;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
@@ -42,12 +43,18 @@ public class GuideDownloaderService extends Service {
 	
 	@Override
 	public void onStart(Intent intent, int startid) {
+		Bundle b = this.intent.getExtras();
+		if (b!=null) {
+			Thread thr = new Thread(null, dTask2, "GuideDownloaderService");
+			thr.start();
+		} else {
 		Toast.makeText(this, "Checking Guide", Toast.LENGTH_LONG).show();
 		// Start up the thread running the service.  Note that we create a
 		// separate thread because the service normally runs in the process's
 		// main thread, which we don't want to block.
 		Thread thr = new Thread(null, dTask, "GuideDownloaderService");
 		thr.start();
+		}
 		handler.removeCallbacks(sendUpdatesToUI);
 		handler.post(sendUpdatesToUI);
 	}
@@ -72,6 +79,16 @@ public class GuideDownloaderService extends Service {
         	Log.d(LOG_TAG,"Starting dTask runnable -- attempting to update guide");
             // perform the download and update the internal guide
         	checkAndUpdateGuide();
+        	guideUpdated = true;
+            // Done with our work...  stop the service!
+            GuideDownloaderService.this.stopSelf();
+        }
+    };
+    Runnable dTask2 = new Runnable() {
+        public void run() {
+        	Log.d(LOG_TAG,"Starting dTask2 runnable -- attempting to force update guide");
+            // perform the download and update the internal guide
+        	updateGuide();
         	guideUpdated = true;
             // Done with our work...  stop the service!
             GuideDownloaderService.this.stopSelf();
