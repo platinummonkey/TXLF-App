@@ -1,42 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  	android:orientation="vertical"
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#F0E0B2">
+    android:layout_height="fill_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:orientation="vertical"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
-    	android:layout_gravity="center_vertical">
-    	<include
-    		layout="@layout/session_day_chooser"
-    		android:layout_height="wrap_content"
-    		android:id="@+id/include_session_header"
-    		android:layout_width="match_parent">
-    	</include>
-    	<include
-    		layout="@layout/session_header"
-    		android:layout_height="wrap_content"
-    		android:id="@+id/include_session_header"
-    		android:layout_width="match_parent">
-    	</include>
-        <ViewFlipper
-        	android:id="@+id/session_day_viewflipper"
-        	android:layout_width="match_parent"
-        	android:layout_height="wrap_content">
-			<include
-    			layout="@layout/session_day0"
-    			android:layout_height="wrap_content"
-    			android:id="@+id/include_session_day0"
-    			android:layout_width="match_parent">
-    		</include>
-    		<include
-    			layout="@layout/session_day1"
-    			android:layout_height="wrap_content"
-    			android:id="@+id/include_session_day1"
-    			android:layout_width="match_parent">
-    		</include>
-        </ViewFlipper>
+    	android:layout_gravity="center_vertical"
+    	android:background="#F0E0B2">    	
+    	<TabWidget android:id="@android:id/tabs"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content" />
+    	<FrameLayout android:id="@android:id/tabcontent"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="fill_parent">
+    	    <LinearLayout android:id="@+id/session_tab_layout_day0"
+    	        android:orientation="vertical"
+    	        android:layout_height="fill_parent"
+    	        android:layout_width="fill_parent">
+    	        <TextView
+        			android:layout_width="fill_parent"
+        			android:gravity="center_horizontal"
+        			android:layout_height="wrap_content"
+        			android:textColor="#8e9f13"
+        			android:background="#006772"
+        			android:textAppearance="?android:attr/textAppearanceMedium"
+       				android:id="@+id/session_track_desc_day0"
+        			android:text="@string/session_track"></TextView>
+    	    	<ViewFlipper
+        			android:id="@+id/session_viewflipper_day0"
+        			android:layout_width="match_parent"
+        			android:layout_height="wrap_content">
+        		</ViewFlipper>
+        	</LinearLayout>
+        	<LinearLayout android:id="@+id/session_tab_layout_day1"
+    	        android:orientation="vertical"
+    	        android:layout_height="fill_parent"
+    	        android:layout_width="fill_parent">
+        		<TextView
+        			android:layout_width="fill_parent"
+        			android:gravity="center_horizontal"
+        			android:layout_height="wrap_content"
+        			android:textColor="#8e9f13"
+        			android:background="#006772"
+        			android:textAppearance="?android:attr/textAppearanceMedium"
+       				android:id="@+id/session_track_desc_day1"
+        			android:text="@string/session_track"></TextView>
+        		<ViewFlipper
+        			android:id="@+id/session_viewflipper_day1"
+        			android:layout_width="match_parent"
+        			android:layout_height="wrap_content">
+        		</ViewFlipper>
+        	</LinearLayout>
+        </FrameLayout>
     </LinearLayout>
-</LinearLayout>
+</TabHost>

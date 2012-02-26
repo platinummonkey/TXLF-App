@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import android.app.Activity;
+import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,20 +23,17 @@ import android.view.View.OnTouchListener;
 import android.view.animation.*;
 import android.widget.*;
 
-public class Sessions extends Activity {
+public class Sessions extends TabActivity {
 
 	private Guide guide;
 	private String LOG_TAG = "Sessions Activity";
 	
-	// choose between day one and day 2
-	private TextView sessionDayTextButton1; // Friday
-	private TextView sessionDayTextButton2; // Saturday
-	
-	//private TextView sessionTrackTextButton;
-	
-	private ViewFlipper viewFlipperDay;
-	private ViewFlipper viewFlipperTrackDay0;
-	private ViewFlipper viewFlipperTrackDay1;
+	// TabHost
+	private TabHost tabhost;
+	private ViewFlipper viewFlipperDay0;
+	private ViewFlipper viewFlipperDay1;
+	private TextView trackTitle_day0;
+	private TextView trackTitle_day1;
 	private GestureDetector gestureDetectorDay0;
 	private GestureDetector gestureDetectorDay1;
 	private ListView lv_day0_trackA;
@@ -69,42 +67,17 @@ public class Sessions extends Activity {
         }
         setContentView(R.layout.sessions);
         
-        // declare buttons
-        this.sessionDayTextButton1 = (TextView)this.findViewById(R.id.session_day_short1);
-        this.sessionDayTextButton2 = (TextView)this.findViewById(R.id.session_day_short2);
-        //this.sessionTrackTextButton = (TextView)this.findViewById(R.id.session_track_tv);
+        this.trackTitle_day0 = (TextView) this.findViewById(R.id.session_track_desc_day0);
+        this.viewFlipperDay0 = (ViewFlipper) this.findViewById(R.id.session_viewflipper_day0);
+        this.trackTitle_day1 = (TextView) this.findViewById(R.id.session_track_desc_day1);
+        this.viewFlipperDay1 = (ViewFlipper) this.findViewById(R.id.session_viewflipper_day1);
         
-        // setup view flipper and gesture
-        this.viewFlipperDay = (ViewFlipper) this.findViewById(R.id.session_day_viewflipper);
-        this.viewFlipperTrackDay0 = (ViewFlipper) this.findViewById(R.id.session_track_viewflipper_day0);
-        this.viewFlipperTrackDay1 = (ViewFlipper) this.findViewById(R.id.session_track_viewflipper_day1);
-        this.gestureDetectorDay0 = new GestureDetector(new SessionGestureDetector(this.viewFlipperTrackDay0));
-        this.gestureDetectorDay1 = new GestureDetector(new SessionGestureDetector(this.viewFlipperTrackDay1));
-        
-        sessionDayTextButton1.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				// update viewflipper to correct tracks for day
-				//dialog http://developer.android.com/guide/topics/ui/dialogs.html
-				viewFlipperDay.setDisplayedChild(0);
-			}
-        	
-        });
-        sessionDayTextButton2.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				// update viewflipper to correct tracks for day
-				//dialog http://developer.android.com/guide/topics/ui/dialogs.html
-				viewFlipperDay.setDisplayedChild(1);
-			}
-        	
-        });
-        
+        this.gestureDetectorDay0 = new GestureDetector(new SessionGestureDetector(this.viewFlipperDay0));
+        this.gestureDetectorDay1 = new GestureDetector(new SessionGestureDetector(this.viewFlipperDay1));
+                
         // set up gesture swiping of tracks with animations (left/right only)
         //    up/down events and those which are too diagonal or squigly are ignored
-        viewFlipperTrackDay0.setOnTouchListener(new OnTouchListener()
+        viewFlipperDay0.setOnTouchListener(new OnTouchListener()
         {
         	public boolean onTouch(View v, MotionEvent event) {
         	    if (gestureDetectorDay0.onTouchEvent(event)) {
@@ -114,7 +87,7 @@ public class Sessions extends Activity {
         	    }
         	}
         });
-        viewFlipperTrackDay1.setOnTouchListener(new OnTouchListener()
+        viewFlipperDay1.setOnTouchListener(new OnTouchListener()
         {
         	public boolean onTouch(View v, MotionEvent event) {
         	    if (gestureDetectorDay1.onTouchEvent(event)) {
@@ -126,15 +99,6 @@ public class Sessions extends Activity {
         });
         
         // load views into viewflipper
-        /// Add days
-        Log.d(LOG_TAG,"Creating Day Views");
-        View view_day0 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_day0, null);
-        View view_day1 = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_day1, null);
-        addViewToDayFlipper(view_day0);
-        addViewToDayFlipper(view_day1);
-        
-        
-        
         /// Add Tracks
         Log.d(LOG_TAG,"Creating Track Views");
         View view_day0_trackA = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
@@ -145,12 +109,12 @@ public class Sessions extends Activity {
         View view_day1_trackC = LayoutInflater.from(getApplicationContext()).inflate(R.layout.session_track, null);
         
         Log.d(LOG_TAG,"Adding Track Views to ViewFlippers");
-        addViewToTrackFlipper0(view_day0_trackA);
-        addViewToTrackFlipper0(view_day0_trackB);
-        addViewToTrackFlipper0(view_day0_trackC);
-        addViewToTrackFlipper1(view_day1_trackA);
-        addViewToTrackFlipper1(view_day1_trackB);
-        addViewToTrackFlipper1(view_day1_trackC);
+        addViewToDayFlipper0(view_day0_trackA);
+        addViewToDayFlipper0(view_day0_trackB);
+        addViewToDayFlipper0(view_day0_trackC);
+        addViewToDayFlipper1(view_day1_trackA);
+        addViewToDayFlipper1(view_day1_trackB);
+        addViewToDayFlipper1(view_day1_trackC);
         
         Log.d(LOG_TAG,"Assigning ListViews");
         this.lv_day0_trackA = (ListView) view_day0_trackA.findViewById(R.id.SessionListView);
@@ -237,6 +201,11 @@ public class Sessions extends Activity {
         	
 		});
         
+        tabhost = getTabHost();
+        tabhost.addTab(tabhost.newTabSpec("day0").setIndicator(createTabView(tabhost.getContext(), "Friday")).setContent(R.id.session_tab_layout_day0));
+        tabhost.addTab(tabhost.newTabSpec("day1").setIndicator(createTabView(tabhost.getContext(), "Saturday")).setContent(R.id.session_tab_layout_day1));
+        tabhost.setCurrentTab(0);
+        
         Log.d(LOG_TAG,"Finished?");
         //lv1adapter = new SessionViewCustomAdapter(this, title, time);
         //http://www.xtensivearts.com/2009/11/15/quick-tip-2-sorting-lists/
@@ -246,6 +215,13 @@ public class Sessions extends Activity {
     	//};
         // });
     };
+    
+    private static View createTabView(final Context context, final String text) {
+    	View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
+    	TextView tv = (TextView) view.findViewById(R.id.tabsText);
+    	tv.setText(text);
+    	return view;
+    }
     
     private Guide getGuide() {
     	try {
@@ -281,14 +257,11 @@ public class Sessions extends Activity {
     }
     
     // Add view to viewflipper
-    public void addViewToTrackFlipper0(View view) {
-    	viewFlipperTrackDay0.addView(view);
+    public void addViewToDayFlipper0(View view) {
+    	viewFlipperDay0.addView(view);
     }
-    public void addViewToTrackFlipper1(View view) {
-    	viewFlipperTrackDay1.addView(view);
-    }
-    public void addViewToDayFlipper(View view) {
-    	viewFlipperDay.addView(view);
+    public void addViewToDayFlipper1(View view) {
+    	viewFlipperDay1.addView(view);
     }
     
     // Custom Gesture Adapter
