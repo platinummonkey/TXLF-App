@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0E0B2">
+	<include layout="@layout/header"
+	    android:layout_height="wrap_content"
+	    android:id="@+id/include1"
+	    android:layout_width="match_parent"></include>
+
+	<TextView
+	    android:id="@+id/sessionTitle"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:text="Awesome Talk"
+	    android:textSize="20dip"
+	    android:gravity="center_horizontal"
+	    android:background="#8e9f13"
+	    android:textColor="#006772" />
+	
+	<ScrollView
+	    android:id="@+id/scrollView1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+
+	    <RelativeLayout
+	        android:id="@+id/linearLayout1"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" >
+	        <ImageView
+	            android:id="@+id/sessionImage"
+	            android:layout_width="120dp"
+	            android:layout_height="120dp"
+	            android:layout_alignParentRight="true"
+	            android:layout_alignParentTop="true"
+	            android:layout_marginRight="6dip"
+	            android:layout_marginTop="6dip"
+	            android:maxHeight="10px"
+	            android:maxWidth="10px"
+	            android:src="@drawable/background"
+	            android:cropToPadding="true"
+	            android:scaleType="centerInside" />
+	        <TextView
+	    		android:id="@+id/sessionTime"
+	    		android:layout_width="fill_parent"
+	    		android:layout_height="110dip"
+	    		android:layout_marginLeft="6dip"
+	    		android:text="Friday Track A (8:00-9:00 AM)"
+	    		android:layout_toLeftOf="@id/sessionImage"
+	    		android:layout_alignParentLeft="true"
+	    		android:singleLine="true" />
+	        <TextView
+	    		android:id="@+id/sessionSpeaker"
+	    		android:layout_width="fill_parent"
+	    		android:layout_height="10dip"
+	    		android:layout_marginLeft="6dip"
+	    		android:layout_marginTop="6dip"
+	    		android:text="Joe Speaker"
+	    		android:layout_above="@id/sessionTime"
+	    		android:layout_alignParentLeft="true"
+	    		android:layout_alignWithParentIfMissing="true"
+	    		android:layout_alignParentTop="true"
+	    		android:layout_toLeftOf="@id/sessionImage" />
+	        <TextView
+	    		android:id="@+id/sessionSummary"
+	    		android:layout_width="fill_parent"
+	    		android:layout_height="fill_parent"
+	    		android:text="Summary details about the session"
+	    		android:layout_below="@id/sessionImage"
+	    		android:layout_alignParentLeft="true"
+	    		android:layout_marginLeft="6dip" />
+
+	    </RelativeLayout>
+	</ScrollView>
+
+	<RatingBar
+	    android:id="@+id/ratingBar1"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" />
+
+</LinearLayout>

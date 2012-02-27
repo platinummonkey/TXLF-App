@@ -21,6 +21,8 @@
         </activity>
 		<activity android:name="AddContact" android:label="@string/addContactTitle"></activity>
 		<activity android:name=".Sessions"></activity>
+		<activity android:name=".Register" android:label="@string/app_name"
+		    android:theme="@android:style/Theme.NoTitleBar"></activity>
 		<receiver android:name=".receiver.AlarmReceiver"></receiver>
 		<service android:name=".GuideDownloaderService" android:process=":remote" />
     </application>

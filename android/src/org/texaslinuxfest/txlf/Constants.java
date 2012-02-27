@@ -13,6 +13,9 @@ public interface Constants {
 	int GUIDE_UPDATE_MIN = 0; // 0 minutes
 	
 	String GUIDETYPE = "Guide";
+	String SESSIONTYPE = "Session";
+	String VENUETYPE = "Venue";
+	String SPONSORTYPE = "Sponsor";
 	
 	// Resource Constants ( Images, Videos, etc..)
 	String MEDIAURL = "http://platinummonkey.com/"; // requires trailing "/"

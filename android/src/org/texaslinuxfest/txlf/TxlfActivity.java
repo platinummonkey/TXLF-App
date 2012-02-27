@@ -73,24 +73,33 @@ public class TxlfActivity extends Activity {
         venueButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//Intent i = new Intent(this, ContactAdder.class);
-		        //startActivity(i);
+				Intent intent = new Intent();
+				Bundle b = new Bundle();
+				b.putSerializable(GUIDETYPE, guide);
+				intent.putExtras(b);
+				//intent.setClass(TxlfActivity.this, Sessions.class);
+		        //startActivity(intent);
 			}
 		});
         //Sponsors Button
         sponsorsButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//Intent i = new Intent(this, ContactAdder.class);
-		        //startActivity(i);
+				Intent intent = new Intent();
+				Bundle b = new Bundle();
+				b.putSerializable(GUIDETYPE, guide);
+				intent.putExtras(b);
+				//intent.setClass(TxlfActivity.this, Sessions.class);
+		        //startActivity(intent);
 			}
 		});
         //Register Button
         registerButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//Intent i = new Intent(this, ContactAdder.class);
-		        //startActivity(i);
+				Intent intent = new Intent();
+				intent.setClass(TxlfActivity.this, Register.class);
+		        startActivity(intent);
 			}
 		});
         //End Buttons
