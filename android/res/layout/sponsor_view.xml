@@ -9,21 +9,10 @@
 	    android:id="@+id/include1"
 	    android:layout_width="match_parent"></include>
 
-	<TextView
-	    android:id="@+id/sessionTitle"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:text="Awesome Talk"
-	    android:textSize="20dip"
-	    android:gravity="center_horizontal"
-	    android:background="#8e9f13"
-	    android:textColor="#006772" />
-	
 	<ScrollView
 	    android:id="@+id/scrollView1"
 	    android:layout_width="match_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1" >
+	    android:layout_height="wrap_content">
 
 	    <RelativeLayout
 	        android:id="@+id/relativeLayout1"
@@ -31,7 +20,7 @@
 	        android:layout_height="match_parent"
 	        android:padding="6dip" >
 	        <ImageView
-	            android:id="@+id/sessionImage"
+	            android:id="@+id/sponsorImage"
 	            android:layout_width="120dip"
 	            android:layout_height="120dip"
 	            android:layout_alignParentRight="true"
@@ -47,47 +36,50 @@
 	            android:layout_width="fill_parent"
 	            android:layout_height="120dip"
 	            android:layout_alignParentTop="True"
-	            android:layout_toLeftOf="@id/sessionImage"
+	            android:layout_toLeftOf="@id/sponsorImage"
 	            android:orientation="vertical" >
 
 	            <TextView
-	                android:id="@+id/sessionDayTrack"
+	                android:id="@+id/sponsorName"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
-	                android:text="Saturday Track A"
+	                android:text="Some Awesome Sponsor"
 	                android:textColor="#006772"
 	                android:textSize="22dip"
 	                android:textStyle="bold" />
 
 	            <TextView
-	                android:id="@+id/sessionTime"
+	                android:id="@+id/sponsorStatus"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
-	                android:text="8:00 AM -9:00 AM"
+	                android:text="Gold Sponsor"
 	                android:textColor="#006772"
 	                android:textSize="16dip" />
 
 	            <TextView
-	                android:id="@+id/nullTextView"
-	                android:layout_width="fill_parent"
-	                android:layout_height="45dip"
-	                android:text="" />
-
-	            <TextView
-	                android:id="@+id/sessionSpeaker"
+	                android:id="@+id/sponsorWebsite"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
-	                android:text="By: Joe Speaker"
-	                android:textColor="#006772" />
+	                android:text="http://someawesomesponsor.com/"
+	                android:textColor="#006772"
+	                android:textSize="10dip" />
+	            <TextView
+	                android:id="@+id/sponsorBoothBool"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:text="Booth Available"
+	                android:textColor="#006772"
+	                android:textSize="10dip" />
 	        </LinearLayout>
 
 	        <TextView
-	    			android:id="@+id/sessionSummary"
+	    			android:id="@+id/sponsorSummary"
 	    			android:layout_width="fill_parent"
 	    			android:layout_height="fill_parent"
-	    			android:text="Summary details about the session.
+	    			android:paddingTop="6dip"
+	    			android:text="Summary details about the sponsor.
 This can go on and on and on...
   
 And on and on1...
@@ -105,18 +97,11 @@ and on and on6...
 and on and on7...
 
 and on and on8..."
-	    			android:layout_below="@id/sessionImage"
+	    			android:layout_below="@id/sponsorImage"
 	    			android:layout_alignParentLeft="true"
 	    			android:layout_alignParentBottom="true"
 	    			android:textColor="#006772" />
 
 	    </RelativeLayout>
 	</ScrollView>
-
-	<RatingBar
-	    android:id="@+id/ratingBar1"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal" />
-
 </LinearLayout>
