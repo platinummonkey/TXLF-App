@@ -22,6 +22,6 @@ public class SessionView extends Activity {
         } else {
         	Log.e(LOG_TAG,"Unable to get guide through Intent");
         }
-        setContentView(R.layout.sessions);
+        setContentView(R.layout.session_view);
     }
 }
