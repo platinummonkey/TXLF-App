@@ -4,6 +4,7 @@ import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.Guide.Session;
 import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
 import static org.texaslinuxfest.txlf.Constants.GUIDETYPE;
+import static org.texaslinuxfest.txlf.Constants.SESSIONTYPE;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -162,6 +163,7 @@ public class Sessions extends TabActivity implements OnGestureListener {
 			    // item click listener for listview
 				Session session = (Session) lv_day0_trackA_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+				viewSession(session);
 			}
         	
 		});
@@ -170,6 +172,7 @@ public class Sessions extends TabActivity implements OnGestureListener {
 			    // item click listener for listview
 				Session session = (Session) lv_day0_trackB_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+				viewSession(session);
 			}
         	
 		});
@@ -178,6 +181,7 @@ public class Sessions extends TabActivity implements OnGestureListener {
 			    // item click listener for listview
 				Session session = (Session) lv_day0_trackC_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+				viewSession(session);
 			}
         	
 		});
@@ -186,6 +190,7 @@ public class Sessions extends TabActivity implements OnGestureListener {
 			    // item click listener for listview
 				Session session = (Session) lv_day1_trackA_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+				viewSession(session);
 			}
         	
 		});
@@ -194,6 +199,7 @@ public class Sessions extends TabActivity implements OnGestureListener {
 			    // item click listener for listview
 				Session session = (Session) lv_day1_trackB_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+				viewSession(session);
 			}
         	
 		});
@@ -202,6 +208,7 @@ public class Sessions extends TabActivity implements OnGestureListener {
 			    // item click listener for listview
 				Session session = (Session) lv_day1_trackC_adapter.getItem(position);
 				Toast.makeText(getApplicationContext(), "Title => "+session.getTitle()+" \n Time => "+session.getTimeSpan(), Toast.LENGTH_SHORT).show();
+				viewSession(session);
 			}
         	
 		});
@@ -221,6 +228,15 @@ public class Sessions extends TabActivity implements OnGestureListener {
     	//};
         // });
     };
+    
+    private void viewSession(Session session) {
+    	Intent intent = new Intent();
+		Bundle b = new Bundle();
+		b.putSerializable(SESSIONTYPE, session);
+		intent.putExtras(b);
+		intent.setClass(Sessions.this, SessionView.class);
+        startActivity(intent);
+    }
     
     private static View createTabView(final Context context, final String text) {
     	View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
