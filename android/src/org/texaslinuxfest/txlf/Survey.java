@@ -1,6 +1,6 @@
 package org.texaslinuxfest.txlf;
 
-import static org.texaslinuxfest.txlf.Constants.REGISTERURL;
+import static org.texaslinuxfest.txlf.Constants.SURVEYURL;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,7 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class Register extends Activity {
+public class Survey extends Activity {
 	WebView webview;
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class Register extends Activity {
 	    });
 	    webview.setWebViewClient(new WebViewClient());
 	    
-	    webview.loadUrl(REGISTERURL);
+	    webview.loadUrl(SURVEYURL);
 	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

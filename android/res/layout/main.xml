@@ -15,5 +15,6 @@
     	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_venue" android:text="@string/btn_venue"></Button>
     	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_sponsors" android:text="@string/btn_sponsors"></Button>
     	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_register" android:text="@string/btn_register"></Button>
+    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_survey" android:text="@string/btn_survey"></Button>
     	</LinearLayout>
 </LinearLayout>

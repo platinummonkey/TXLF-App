@@ -14,13 +14,11 @@ import android.widget.TextView;
 public class SessionListAdapter extends BaseAdapter {
 	private String LOG_TAG = "SessionListAdapter";
 	private ArrayList<Session> sessions;
-	//private Session[] sl;
 	private LayoutInflater mInflater;
 	
 	public SessionListAdapter(Context context, ArrayList<Session> sl) {
 		sessions = sl;
 		mInflater = LayoutInflater.from(context);
-		//mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 	}
 	public int getCount() {

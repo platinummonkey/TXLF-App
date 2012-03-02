@@ -21,6 +21,9 @@ public interface Constants {
 	
 	// Resource Constants ( Images, Videos, etc..)
 	String MEDIAURL = "http://platinummonkey.com/"; // requires trailing "/"
+	String REGISTERURL = "http://register.texaslinuxfest.org";
+	String SURVEYURL = "http://texaslinuxfest.org/survey/";
+	String RATINGSURL = "http://texaslinuxfest.org/ratings/submit/";
 	
 	// Sponsors - Only used by sponsors
 	String SPONSORUNLOCKCODE = "SP0NS0RS";
@@ -34,6 +37,8 @@ public interface Constants {
 	int NUMDAYS = 2; // friday + saturday = 2
 	List<Integer> NUMTRACKSPERDAY = Arrays.asList(2,3); // 2,3 day0-2 tracks, day1-3 tracks
 	List<String> DAYTITLES = Arrays.asList("Friday", "Saturday"); // day0, day1
-	List<String> TRACKTITLES = Arrays.asList("Track A", "Track B", "Track C"); 
-	
+	List<List<String>> TRACKTITLES = Arrays.asList(
+			Arrays.asList("Track A", "Track B"), // Day 0 track titles
+			Arrays.asList("Track A", "Track B", "Track C") // Day 1 track titles
+			);
 }

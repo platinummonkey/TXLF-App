@@ -28,6 +28,7 @@ public class TxlfActivity extends Activity {
 	private Button venueButton;
 	private Button sponsorsButton;
 	private Button registerButton;
+	private Button surveyButton;
 	private static final String LOG_TAG = "txlf";
 	
 	// GUIDE
@@ -45,6 +46,7 @@ public class TxlfActivity extends Activity {
         this.venueButton = (Button)this.findViewById(R.id.button_venue);
         this.sponsorsButton = (Button)this.findViewById(R.id.button_sponsors);
         this.registerButton = (Button)this.findViewById(R.id.button_register);
+        this.surveyButton = (Button)this.findViewById(R.id.button_survey);
         
         //Button listeners
         //Scan Button - Requires Barcode Scanner
@@ -99,6 +101,15 @@ public class TxlfActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent();
 				intent.setClass(TxlfActivity.this, Register.class);
+		        startActivity(intent);
+			}
+		});
+       //Survey Button
+        surveyButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent();
+				intent.setClass(TxlfActivity.this, Survey.class);
 		        startActivity(intent);
 			}
 		});

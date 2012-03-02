@@ -4,22 +4,15 @@ import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.Guide.Session;
 import static org.texaslinuxfest.txlf.Constants.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.*;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View.OnTouchListener;
 import android.widget.*;
 
 public class Sessions extends TabActivity {
@@ -108,7 +101,7 @@ public class Sessions extends TabActivity {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			ViewGroup view = (ViewGroup) inflater.inflate(R.layout.session_pager,null);
 			TextView tv  = (TextView) view.findViewById(R.id.session_day_track_desc);
-	        tv.setText(DAYTITLES.get(this.dayNumber) + " - " + TRACKTITLES.get(position));
+	        tv.setText(DAYTITLES.get(this.dayNumber) + " - " + TRACKTITLES.get(this.dayNumber).get(position));
 			ListView lv = (ListView) view.findViewById(R.id.SessionListView);
 			ArrayList<Session> sessions = guide.getSessionsByTrack(this.dayNumber,position);
 			final SessionListAdapter lv_adapter = new SessionListAdapter(collection.getContext(), sessions);

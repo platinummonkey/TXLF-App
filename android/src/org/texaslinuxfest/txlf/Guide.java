@@ -1,7 +1,10 @@
 package org.texaslinuxfest.txlf;
 
+import static org.texaslinuxfest.txlf.Constants.*;
 import java.io.Serializable;
 import java.net.URI;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import android.app.Application;
 import android.util.Log;
@@ -56,11 +59,31 @@ public class Guide extends Application implements Serializable {
 		public String getTitle() {
 			return this.title;
 		}
+		public String getTitle(int maxLength) {
+			// Returns portion of title, if less than max length it
+			//    just returns title, else appends "..."
+			Log.d(LOG_TAG,"getTitle: " + new Integer(maxLength).toString() );
+			if (this.title.length() > maxLength) {
+				Log.d(LOG_TAG,"string too large");
+				return this.title.substring(0,maxLength-1) +"...";
+			} else {
+				Log.d(LOG_TAG,"string small enough");
+				return this.title;
+			}
+				
+		}
 		public int getTrack() {
 			return this.track;
 		}
+		public String getDayTrack() {
+			return DAYTITLES.get(this.day) + " " + 
+					TRACKTITLES.get(this.day).get(this.track);
+		}
 		public String getTimeSpan() {
-			return this.time.toString()+"-"+this.endTime.toString();
+			Format formatter = new SimpleDateFormat("h:mm a");
+			String stime = formatter.format(this.time);
+			String etime = formatter.format(this.endTime);
+			return stime+"-"+etime;
 		}
 		public String getSpeaker() {
 			return this.speaker;

@@ -38,7 +38,7 @@
 	            android:layout_alignParentTop="true"
 	            android:maxHeight="120dip"
 	            android:maxWidth="120dip"
-	            android:src="@drawable/background"
+	            android:src="@drawable/avatar"
 	            android:cropToPadding="true"
 	            android:scaleType="fitStart" />
 
@@ -114,9 +114,11 @@ and on and on8..."
 	</ScrollView>
 
 	<RatingBar
-	    android:id="@+id/ratingBar1"
+	    android:id="@+id/sessionRating"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal" />
+	    android:layout_gravity="center_horizontal"
+	    android:numStars="5"
+	    android:stepSize="1.0" />
 
 </LinearLayout>

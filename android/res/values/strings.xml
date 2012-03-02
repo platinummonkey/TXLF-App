@@ -9,6 +9,7 @@
     <string name="btn_sessions">Sessions</string>
     <string name="btn_venue">Venue</string>
     <string name="btn_register">Register</string>
+    <string name="btn_survey">Survey</string>
     <string name="btn_sponsors">Sponsors</string>
     <string name="accountSpinnerLabel">Account</string>
     <string name="addContactButtonLabel">Add Contact</string>
