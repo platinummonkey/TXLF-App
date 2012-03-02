@@ -1,6 +1,8 @@
 package org.texaslinuxfest.txlf;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public interface Constants {
 	// App Constants
@@ -28,4 +30,10 @@ public interface Constants {
 	
 	// Admins - Only used by Event Organizers to keep everyone in sync 24 hrs of the day.
 	String ADMINUNLOCKCODE = "42";
+	
+	int NUMDAYS = 2; // friday + saturday = 2
+	List<Integer> NUMTRACKSPERDAY = Arrays.asList(2,3); // 2,3 day0-2 tracks, day1-3 tracks
+	List<String> DAYTITLES = Arrays.asList("Friday", "Saturday"); // day0, day1
+	List<String> TRACKTITLES = Arrays.asList("Track A", "Track B", "Track C"); 
+	
 }

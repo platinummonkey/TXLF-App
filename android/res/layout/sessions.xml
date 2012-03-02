@@ -20,40 +20,20 @@
     	        android:layout_height="fill_parent"
     	        android:layout_width="fill_parent"
     	        android:background="#F0E0B2">
-    	        <TextView
-        			android:layout_width="fill_parent"
-        			android:gravity="center_horizontal"
-        			android:layout_height="wrap_content"
-        			android:textColor="#8e9f13"
-        			android:background="#006772"
-        			android:textAppearance="?android:attr/textAppearanceMedium"
-       				android:id="@+id/session_track_desc_day0"
-        			android:text="@string/session_track"></TextView>
-    	    	<ViewFlipper
-        			android:id="@+id/session_viewflipper_day0"
+    	    	<android.support.v4.view.ViewPager
+        			android:id="@+id/session_viewpager_day0"
         			android:layout_width="match_parent"
-        			android:layout_height="wrap_content">
-        		</ViewFlipper>
+        			android:layout_height="wrap_content" />
         	</LinearLayout>
         	<LinearLayout android:id="@+id/session_tab_layout_day1"
     	        android:orientation="vertical"
     	        android:layout_height="fill_parent"
     	        android:layout_width="fill_parent"
     	        android:background="#F0E0B2">
-        		<TextView
-        			android:layout_width="fill_parent"
-        			android:gravity="center_horizontal"
-        			android:layout_height="wrap_content"
-        			android:textColor="#8e9f13"
-        			android:background="#006772"
-        			android:textAppearance="?android:attr/textAppearanceMedium"
-       				android:id="@+id/session_track_desc_day1"
-        			android:text="@string/session_track"></TextView>
-        		<ViewFlipper
-        			android:id="@+id/session_viewflipper_day1"
+        		<android.support.v4.view.ViewPager
+        			android:id="@+id/session_viewpager_day1"
         			android:layout_width="match_parent"
-        			android:layout_height="wrap_content">
-        		</ViewFlipper>
+        			android:layout_height="wrap_content" />
         	</LinearLayout>
         </FrameLayout>
     </LinearLayout>
