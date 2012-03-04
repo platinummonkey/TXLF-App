@@ -66,7 +66,6 @@ public class SessionView extends Activity {
 				Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
 				this.sessionSpeakerImage.setImageBitmap(bitmap);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         } else {
