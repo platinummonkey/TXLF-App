@@ -1,8 +1,15 @@
 package org.texaslinuxfest.txlf;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import org.texaslinuxfest.txlf.Guide.Session;
 import static org.texaslinuxfest.txlf.Constants.SESSIONTYPE;
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -15,6 +22,7 @@ public class SessionView extends Activity {
 	
 	private String LOG_TAG = "SessionView Activity";
 	private Session session;
+	private File cacheDir;
 	
 	private TextView sessionTitle;
 	private TextView sessionTime;
@@ -34,6 +42,8 @@ public class SessionView extends Activity {
         } else {
         	Log.e(LOG_TAG,"Unable to get guide through Intent");
         }
+        cacheDir = this.getCacheDir();
+        
         setContentView(R.layout.session_view);
         
         this.sessionTitle = (TextView) this.findViewById(R.id.sessionTitle);
@@ -49,6 +59,19 @@ public class SessionView extends Activity {
         this.sessionSpeaker.setText(this.session.getSpeaker());
         
         this.sessionSpeakerImage = (ImageView) this.findViewById(R.id.sessionImage);
+        if (session.getSpeakerImage()!= null && session.getSpeakerImage().length()>0) {
+        	Log.d(LOG_TAG,"Speaker image exists, attempting to load");
+        	File file = new File(this.cacheDir, session.getSpeakerImage());
+			try {
+				Bitmap bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
+				this.sessionSpeakerImage.setImageBitmap(bitmap);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        } else {
+        	Log.d(LOG_TAG,"Speaker image does not exist, defaulting to resource image.");
+        }
         
         
         this.sessionSummary = (TextView) this.findViewById(R.id.sessionSummary);

@@ -17,6 +17,7 @@ import android.widget.*;
 import android.util.Log;
 
 import static org.texaslinuxfest.txlf.Constants.*;
+
 import org.texaslinuxfest.txlf.Guide;
 import org.texaslinuxfest.txlf.AlarmReceiver;
 
@@ -62,7 +63,8 @@ public class TxlfActivity extends Activity {
         //Sessions Button
         sessionsButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				// force update guide - no idea why intents aren't updating guide...
+				forceReloadGuide();
 				Intent intent = new Intent();
 				Bundle b = new Bundle();
 				b.putSerializable(GUIDETYPE, guide);
@@ -74,7 +76,8 @@ public class TxlfActivity extends Activity {
         //Venue Button
         venueButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				// force update guide - no idea why intents aren't updating guide...
+				forceReloadGuide();
 				Intent intent = new Intent();
 				Bundle b = new Bundle();
 				b.putSerializable(GUIDETYPE, guide);
@@ -86,7 +89,8 @@ public class TxlfActivity extends Activity {
         //Sponsors Button
         sponsorsButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				// force update guide - no idea why intents aren't updating guide...
+				forceReloadGuide();
 				Intent intent = new Intent();
 				Bundle b = new Bundle();
 				b.putSerializable(GUIDETYPE, guide);
@@ -98,7 +102,7 @@ public class TxlfActivity extends Activity {
         //Register Button
         registerButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				// webview to register page
 				Intent intent = new Intent();
 				intent.setClass(TxlfActivity.this, Register.class);
 		        startActivity(intent);
@@ -107,7 +111,7 @@ public class TxlfActivity extends Activity {
        //Survey Button
         surveyButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				// webview to survey page
 				Intent intent = new Intent();
 				intent.setClass(TxlfActivity.this, Survey.class);
 		        startActivity(intent);
@@ -158,6 +162,18 @@ public class TxlfActivity extends Activity {
     
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
     	public void onReceive(Context context, Intent intent) {
+    		Bundle b = intent.getExtras();
+            if (b!=null) {
+            	TxlfActivity.this.guide = (Guide) b.getSerializable(GUIDETYPE);
+            	Log.d(LOG_TAG,"Got guide through intent Serializable");
+            } else {
+            	Log.e(LOG_TAG,"Unable to get guide through Intent");
+            }
+    		// start service to download images in background
+            Context context2 = getApplicationContext();
+            context2.startService(new Intent(TxlfActivity.this, ImageDownloaderService.class));
+			Log.d(LOG_TAG,"Started ImageDownloader Service");
+	        // update UI eventhough images haven't been fully downloaded.
     		updateUI(intent);
     	}
     };
@@ -180,25 +196,6 @@ public class TxlfActivity extends Activity {
     	toast.show();
     	sessionsButton.setEnabled(true);
     }
-    
-    /*private void setRecurringAlarm(Context context) {
-    	// Sets an alarm for daily updates
-    	// -  service doesn't actually update if file expiration date hasn't expired
-        // set it to start at around 1 AM every day, 
-    	// but we don't want to hit all at once
-        Calendar updateTime = Calendar.getInstance();
-        updateTime.setTimeZone(TimeZone.getTimeZone("GMT"));
-        updateTime.set(Calendar.HOUR_OF_DAY, 1);
-        updateTime.set(Calendar.MINUTE, 0);
-     
-        Intent downloader = new Intent(context, AlarmReceiver.class);
-        PendingIntent recurringDownload = PendingIntent.getBroadcast(context,
-                0, downloader, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager alarms = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarms.setInexactRepeating(AlarmManager.RTC,
-                updateTime.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, recurringDownload);
-    }*/
     
     public Date convertStringToDate(String dateString) {
     	// check json expiry date against today
@@ -370,5 +367,21 @@ public class TxlfActivity extends Activity {
                 break;
         }
         return true;
+    }
+    public void forceReloadGuide() {
+    	// try to open guide on disk
+    	try {
+    		FileInputStream fis = openFileInput(GUIDEFILE);
+    		ObjectInputStream in = new ObjectInputStream(fis);
+    		guide = (Guide) in.readObject();
+    		in.close();
+    		Log.d(LOG_TAG,"Got guide");
+    	} catch (IOException e) {
+    		Log.e(LOG_TAG, "Coudln't find guide - IOerror");
+    		e.printStackTrace();
+    	} catch (Exception e) {
+    		Log.e(LOG_TAG, "Couldn't find guide -other exception");
+    		e.printStackTrace();
+    	}
     }
 }

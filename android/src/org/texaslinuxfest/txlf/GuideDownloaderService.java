@@ -1,5 +1,6 @@
 package org.texaslinuxfest.txlf;
 
+import static org.texaslinuxfest.txlf.Constants.GUIDETYPE;
 import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
 import static org.texaslinuxfest.txlf.Constants.GUIDEURL;
 
@@ -22,15 +23,15 @@ import android.widget.Toast;
 
 public class GuideDownloaderService extends Service {
 
-	private static final String LOG_TAG = "txlf_GuideDownloaderService";
+	private static final String LOG_TAG = "GuideDownloaderService";
 	public static final String BROADCAST_ACTION = "org.texaslinuxfest.txlf.GuideUpdate";
 	private final Handler handler = new Handler();
 	Intent intent;
 	private boolean guideUpdated = false;
+	Guide guide;
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -71,6 +72,8 @@ public class GuideDownloaderService extends Service {
 	private void updateUI() {
 		Log.d(LOG_TAG,"Broadcasting Intent to update display");
 		intent.putExtra("GuideDownloadStatus","Guide has been updated");
+		Bundle b = new Bundle();
+		b.putSerializable(GUIDETYPE, this.guide);
 		sendBroadcast(intent);
 	}
 	
@@ -100,7 +103,7 @@ public class GuideDownloaderService extends Service {
     	try {
     		FileInputStream fis = openFileInput(GUIDEFILE);
     		ObjectInputStream in = new ObjectInputStream(fis);
-    		Guide guide = (Guide) in.readObject();
+    		this.guide = (Guide) in.readObject();
     		in.close();
     		// Check if guide has expired
     		Date now = new Date();
@@ -141,7 +144,7 @@ public class GuideDownloaderService extends Service {
     		Date expires = convertStringToDate(jguide.getString("expires"));
     		
     		// create object
-    		Guide guide = new Guide(year, expires);
+    		this.guide = new Guide(year, expires);
     		
     		// go through sessions
     		String sessionstext = jguide.getString("sessions");
@@ -154,9 +157,10 @@ public class GuideDownloaderService extends Service {
     			Date time = convertStringToDate(jsession.getString("time"));
     			Date endTime = convertStringToDate(jsession.getString("end_time"));
     			String speaker = jsession.getString("speaker");
+    			String speakerImage = jsession.getString("speakerImage");
     			String title = jsession.getString("title");
     			String summary = jsession.getString("summary");
-    			guide.addSession(day, track, time, endTime, speaker, title, summary);
+    			guide.addSession(day, track, time, endTime, speaker, speakerImage, title, summary);
     		}
     		
     		// write object to storage
@@ -188,43 +192,6 @@ public class GuideDownloaderService extends Service {
 		}
 		return date;
     }
-    
-    /*public Boolean checkGuideExpiration() {
-    	try {
-    		// open file
-    		InputStream is = openFileInput(GUIDEFILE+".json");
-    		byte [] buffer = new byte[is.available()];
-    		while (is.read(buffer) != -1);
-    		String istext = new String(buffer);
-    		// parse json
-    		JSONObject guide = new JSONObject(istext);
-    		String expires = guide.getString("expires");
-    		// check json expiry date against today
-    		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        	Date now = new Date();
-        	Date expireTime;
-    		try {
-    			expireTime = format.parse(expires);
-    		} catch (ParseException e) {
-    			Log.e(LOG_TAG, "Error parsing expire date");
-    			e.printStackTrace();
-    			expireTime = new Date();
-    		}
-    		// check if its expired
-        	if (now.after(expireTime)) {
-        		Log.i(LOG_TAG, "guide has expired");
-        		return false;
-        	} else {
-        		Log.i(LOG_TAG, "guide has NOT expired");
-        		return true;
-        	}
-    	} catch (Exception e) {
-    		// invalid json file, or some badjuju happened
-    		Log.e(LOG_TAG, "Error loading guide file");
-    		e.printStackTrace();
-    		return false;
-    	}
-    }*/
     
     public String getProgramGuide() {
     	Log.d(LOG_TAG, "Attempting to download GUIDE");

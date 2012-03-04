@@ -39,16 +39,18 @@ public class Guide extends Application implements Serializable {
 		private Date time;
 		private Date endTime;
 		private String speaker;
+		private String speakerImage;
 		private String title;
 		private String summary;
 		
-		public Session (int day, int track, Date time, Date endTime, String speaker, String title, String summary) {
+		public Session (int day, int track, Date time, Date endTime, String speaker, String speakerImage, String title, String summary) {
 			// defines the session object(s) that are a part of the overall guide.
 			this.day = day;
 			this.track = track;
 			this.time = time;
 			this.endTime = endTime;
 			this.speaker = speaker;
+			this.speakerImage = speakerImage;
 			this.title = title;
 			this.summary = summary;
 		}
@@ -88,6 +90,9 @@ public class Guide extends Application implements Serializable {
 		public String getSpeaker() {
 			return this.speaker;
 		}
+		public String getSpeakerImage() {
+			return this.speakerImage;
+		}
 		public String getSummary() {
 			return this.summary;
 		}
@@ -112,15 +117,15 @@ public class Guide extends Application implements Serializable {
 		private int order;
 		private String levelCommonName;
 		private String summary;
-		private URI imagePath;
+		private String sponsorImage;
 		
-		public Sponsor (String organization, int level, int order, String levelCommonName, String summary, URI imagePath) {
+		public Sponsor (String organization, int level, int order, String levelCommonName, String summary, String sponsorImage) {
 			this.organization = organization;
 			this.level = level;
 			this.order = order;
 			this.levelCommonName = levelCommonName;
 			this.summary = summary;
-			this.imagePath = imagePath;
+			this.sponsorImage = sponsorImage;
 		}
 		public String getOrganizationName() {
 			return this.organization.toString();
@@ -137,8 +142,8 @@ public class Guide extends Application implements Serializable {
 		public String getSummary() {
 			return this.summary;
 		}
-		public URI getImage() {
-			return this.imagePath;
+		public String getSponsorImage() {
+			return this.sponsorImage;
 		}
 		public boolean equals(Object o) {
 			// check if two are the same thing (only check title)
@@ -166,20 +171,30 @@ public class Guide extends Application implements Serializable {
 		private int zipcode;
 		@SuppressWarnings("unused")
 		private String cityState;
-		@SuppressWarnings("unused")
 		private URI map;
+		private List<String> vmaps;
 		private List<String> tracks = new ArrayList<String>();
 		
-		public Venue (String name, String address, int zipcode, String cityState, URI map) {
+		public Venue (String name, String address, int zipcode, String cityState, URI map, ArrayList<String> vmaps) {
 			this.name = name;
 			this.address = address;
 			this.zipcode = zipcode;
 			this.cityState = cityState;
 			this.map = map;
+			
 		}
 		
 		public void addTrack(String track) {
 			tracks.add(track);
+		}
+		public URI getMap() {
+			return this.map;
+		}
+		public List<String> getVenueMaps(){
+			return this.vmaps;
+		}
+		public String getVenueMap(int mapNumber) {
+			return this.vmaps.get(mapNumber);
 		}
 	}
 	
@@ -206,16 +221,16 @@ public class Guide extends Application implements Serializable {
 	
 	
 	// Set up adding methods
-	public void addSession(int day, int track, Date time, Date endTime, String speaker, String title, String summary) {
-		sessions.add(new Session(day, track, time, endTime, speaker, title, summary));
+	public void addSession(int day, int track, Date time, Date endTime, String speaker, String speakerImage, String title, String summary) {
+		sessions.add(new Session(day, track, time, endTime, speaker, speakerImage, title, summary));
 	}
 	
-	public void addSponsor(String organization, int level, int order, String levelCommonName, String summary, URI imagePath) {
-		sponsors.add(new Sponsor(organization, level, order, levelCommonName, summary, imagePath));
+	public void addSponsor(String organization, int level, int order, String levelCommonName, String summary, String sponsorImage) {
+		sponsors.add(new Sponsor(organization, level, order, levelCommonName, summary, sponsorImage));
 	}
 	
-	public void addVenue(String name, String address, int zipcode, String cityState, URI map) {
-		venue = new Venue(name, address, zipcode, cityState, map);
+	public void addVenue(String name, String address, int zipcode, String cityState, URI map, ArrayList<String> vmaps) {
+		venue = new Venue(name, address, zipcode, cityState, map, vmaps);
 	}
 	
 	public void addAfterparty(String name, String address, int zipcode, String cityState, URI map) {
@@ -243,5 +258,22 @@ public class Guide extends Application implements Serializable {
 	}
 	public Afterparty getAfterParty() {
 		return this.afterparty;
+	}
+	public List<String> getImagesToDownload() {
+		// sessions, sponsors, venue
+		List<String> images = new ArrayList<String>();
+		// sessions
+		for (int i = 0; i < this.sessions.size(); i++) {
+			images.add(this.sessions.get(i).getSpeakerImage());
+		}
+		// sponsors
+		//for (int i = 0; i < this.sponsors.size(); i++) {
+		//	images.add(this.sponsors.get(i).getSponsorImage());
+		//}
+		// venue
+		//for (int i = 0; i < this.venue.getVenueMaps().size(); i++) {
+		//	images.add(this.venue.getVenueMap(i));
+		//}
+		return images;
 	}
 }

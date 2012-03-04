@@ -28,5 +28,6 @@
 		    android:theme="@android:style/Theme.NoTitleBar"></activity>
 		<receiver android:name=".receiver.AlarmReceiver"></receiver>
 		<service android:name=".GuideDownloaderService" android:process=":remote" />
+		<service android:name=".ImageDownloaderService" android:process=":remote" />
     </application>
 </manifest>
