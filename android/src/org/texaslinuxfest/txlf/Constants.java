@@ -41,4 +41,5 @@ public interface Constants {
 			Arrays.asList("Track A", "Track B"), // Day 0 track titles
 			Arrays.asList("Track A", "Track B", "Track C") // Day 1 track titles
 			);
+	List<String> SPONSORSTATUSES = Arrays.asList("Platinum","Gold","Silver","Bronze"); // 0,1,2,3
 }

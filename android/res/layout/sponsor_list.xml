@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="horizontal"
+  android:layout_width="fill_parent"
+  android:layout_height="70dip"
+  android:padding="6dip">
+    <ImageView
+		android:id="@+id/sponsorImage"
+	    android:layout_width="64dip"
+	    android:layout_height="64dip"
+	    android:maxHeight="64dip"
+	    android:maxWidth="64dip"
+	    android:src="@drawable/avatar"
+	    android:cropToPadding="true"
+	    android:scaleType="fitStart" />
+    <TextView
+      android:id="@+id/sponsorOrganization"
+      android:text="Awesome LLC"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:textSize="20dip"
+      android:textColor="#006772"
+      android:layout_gravity="center"
+      android:paddingLeft="6dip" />
+
+</LinearLayout>

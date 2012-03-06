@@ -95,8 +95,8 @@ public class TxlfActivity extends Activity {
 				Bundle b = new Bundle();
 				b.putSerializable(GUIDETYPE, guide);
 				intent.putExtras(b);
-				//intent.setClass(TxlfActivity.this, Sessions.class);
-		        //startActivity(intent);
+				intent.setClass(TxlfActivity.this, Sponsors.class);
+		        startActivity(intent);
 			}
 		});
         //Register Button

@@ -118,17 +118,33 @@ public class Guide extends Application implements Serializable {
 		private String levelCommonName;
 		private String summary;
 		private String sponsorImage;
+		private String website;
+		private Boolean booth;
 		
-		public Sponsor (String organization, int level, int order, String levelCommonName, String summary, String sponsorImage) {
+		public Sponsor (String organization, int level, int order, String levelCommonName, String summary, String sponsorImage, String website, Boolean booth) {
 			this.organization = organization;
 			this.level = level;
 			this.order = order;
 			this.levelCommonName = levelCommonName;
 			this.summary = summary;
 			this.sponsorImage = sponsorImage;
+			this.website = website;
+			this.booth = booth;
 		}
 		public String getOrganizationName() {
 			return this.organization.toString();
+		}
+		public String getOrganizationName(int maxLength) {
+			// Returns portion of title, if less than max length it
+			//    just returns title, else appends "..."
+			Log.d(LOG_TAG,"getOrganizationName: " + new Integer(maxLength).toString() );
+			if (this.organization.length() > maxLength) {
+				Log.d(LOG_TAG,"string too large");
+				return this.organization.substring(0,maxLength-1) +"...";
+			} else {
+				Log.d(LOG_TAG,"string small enough");
+				return this.organization;
+			}
 		}
 		public int getLevel() {
 			return this.level;
@@ -142,8 +158,20 @@ public class Guide extends Application implements Serializable {
 		public String getSummary() {
 			return this.summary;
 		}
+		public String getWebsite() {
+			return this.website;
+		}
+		public Boolean hasBooth() {
+			if (this.booth) {
+				return true;
+			}
+			return false;
+		}
 		public String getSponsorImage() {
 			return this.sponsorImage;
+		}
+		public String getSponsorStatus() {
+			return SPONSORSTATUSES.get(this.level);
 		}
 		public boolean equals(Object o) {
 			// check if two are the same thing (only check title)
@@ -225,8 +253,8 @@ public class Guide extends Application implements Serializable {
 		sessions.add(new Session(day, track, time, endTime, speaker, speakerImage, title, summary));
 	}
 	
-	public void addSponsor(String organization, int level, int order, String levelCommonName, String summary, String sponsorImage) {
-		sponsors.add(new Sponsor(organization, level, order, levelCommonName, summary, sponsorImage));
+	public void addSponsor(String organization, int level, int order, String levelCommonName, String summary, String sponsorImage, String website, Boolean booth) {
+		sponsors.add(new Sponsor(organization, level, order, levelCommonName, summary, sponsorImage, website, booth));
 	}
 	
 	public void addVenue(String name, String address, int zipcode, String cityState, URI map, ArrayList<String> vmaps) {
@@ -249,9 +277,19 @@ public class Guide extends Application implements Serializable {
 		Collections.sort(tracks); // sort by start and end time.
 		return tracks;
 	}
-	public List<Sponsor> getSponsors() {
-		Collections.sort(this.sponsors);
-		return this.sponsors;
+	public ArrayList<Sponsor> getSponsorsByLevel(int n) {
+		ArrayList<Sponsor> s = new ArrayList<Sponsor>();
+		for (Sponsor sponsor : this.sponsors) {
+			if (sponsor.level == n) {
+				Log.d(LOG_TAG,"Adding Sponsors to SponsorSet "+sponsor.getOrganizationName());
+				s.add(sponsor);
+			}
+		}
+		Collections.sort(s);
+		return s;
+	}
+	public int getNumSponsorsByLevel(int n) {
+		return getSponsorsByLevel(n).size();
 	}
 	public Venue getVenue() {
 		return this.venue;
