@@ -5,8 +5,10 @@ import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
 import static org.texaslinuxfest.txlf.Constants.GUIDEURL;
 
 import java.io.*;
+import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import org.apache.http.*;
 import org.apache.http.client.*;
@@ -162,6 +164,45 @@ public class GuideDownloaderService extends Service {
     			String summary = jsession.getString("summary");
     			guide.addSession(day, track, time, endTime, speaker, speakerImage, title, summary);
     		}
+    		
+    		// go through sponsors
+    		String sponsorstext = jguide.getString("sponsors");
+    		JSONArray jsponsors = new JSONArray(sponsorstext);
+    		for (i=0;i<jsponsors.length();i++) {
+    			JSONObject jsponsor = jsponsors.getJSONObject(i);
+    			String organization = jsponsor.getString("organization");
+    			Integer sponsorLevel = Integer.parseInt(jsponsor.getString("sponsorLevel"));
+    			String website = jsponsor.getString("website");
+    			String logo = jsponsor.getString("logo");
+    			Integer order = Integer.parseInt(jsponsor.getString("order"));
+    			String summary = jsponsor.getString("summary");
+    			Boolean booth = Boolean.parseBoolean(jsponsor.getString("boothAvail"));
+    			guide.addSponsor(organization, sponsorLevel, order, summary, logo, website, booth);
+    		}
+    		
+    		// venue
+    		JSONObject jvenue = jguide.getJSONObject("venue");
+    		String venueName = jvenue.getString("name");
+    		String venueAddress = jvenue.getString("address");
+    		Integer venueZipcode = Integer.parseInt(jvenue.getString("zipcode"));
+    		String venueCity = jvenue.getString("city");
+    		URI venuemap = URI.create(jvenue.getString("map"));
+    		String vmapstext = jvenue.getString("vmaps");
+    		JSONArray jvmaps = new JSONArray(vmapstext);
+    		ArrayList<String> vmaps = new ArrayList<String>();
+    		for (i=0;i<jvmaps.length();i++) {
+    			vmaps.add(jvmaps.getString(i));
+    		}
+    		guide.setVenue(venueName, venueAddress, venueZipcode, venueCity, venuemap, vmaps);
+    		
+    		// afterparty
+    		JSONObject jap = jguide.getJSONObject("afterparty");
+    		String apName = jap.getString("name");
+    		String apAddress = jap.getString("address");
+    		Integer apZipcode = Integer.parseInt(jap.getString("zipcode"));
+    		String apCity = jap.getString("city");
+    		URI apMap = URI.create(jap.getString("map"));
+    		guide.setAfterparty(apName, apAddress, apZipcode, apCity, apMap);
     		
     		// write object to storage
     		Log.v(LOG_TAG, "Attempting to write serialized object to file");

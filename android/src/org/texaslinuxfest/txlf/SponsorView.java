@@ -33,7 +33,7 @@ public class SponsorView extends Activity {
         super.onCreate(savedInstanceState);
         Bundle b = this.getIntent().getExtras();
         if (b!=null) {
-        	this.sponsor = (Sponsor) b.getSerializable(SESSIONTYPE);
+        	sponsor = (Sponsor) b.getSerializable(SESSIONTYPE);
         	Log.d(LOG_TAG,"Got guide through intent Serializable");
         } else {
         	Log.e(LOG_TAG,"Unable to get guide through Intent");
@@ -43,16 +43,16 @@ public class SponsorView extends Activity {
         setContentView(R.layout.sponsor_view);
         
         this.sponsorName = (TextView) this.findViewById(R.id.sponsorName);
-        this.sponsorName.setText(this.sponsor.getOrganizationName(21)); // get first 21 characters
+        this.sponsorName.setText(sponsor.getOrganizationName(21)); // get first 21 characters
         
         this.sponsorStatus = (TextView) this.findViewById(R.id.sponsorStatus);
-        this.sponsorStatus.setText(this.sponsor.getSponsorStatus());
+        this.sponsorStatus.setText(sponsor.getSponsorStatus());
         
         this.sponsorWebsite = (TextView) this.findViewById(R.id.sponsorWebsite);
-        this.sponsorWebsite.setText(this.sponsor.getWebsite());
+        this.sponsorWebsite.setText(sponsor.getWebsite());
         
         this.sponsorBoothBool = (TextView) this.findViewById(R.id.sponsorBoothBool);
-        if (this.sponsor.hasBooth()) {
+        if (sponsor.hasBooth()) {
         	this.sponsorBoothBool.setText("Booth Available");
         } else {
         	this.sponsorBoothBool.setText("");
@@ -75,7 +75,7 @@ public class SponsorView extends Activity {
         
         
         this.sponsorSummary = (TextView) this.findViewById(R.id.sponsorSummary);
-        this.sponsorSummary.setText(this.sponsor.getSummary());
+        this.sponsorSummary.setText(sponsor.getSummary());
     }
 }
 

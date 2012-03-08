@@ -121,11 +121,11 @@ public class Guide extends Application implements Serializable {
 		private String website;
 		private Boolean booth;
 		
-		public Sponsor (String organization, int level, int order, String levelCommonName, String summary, String sponsorImage, String website, Boolean booth) {
+		public Sponsor (String organization, int level, int order, String summary, String sponsorImage, String website, Boolean booth) {
 			this.organization = organization;
 			this.level = level;
 			this.order = order;
-			this.levelCommonName = levelCommonName;
+			this.levelCommonName = SPONSORSTATUSES.get(level);
 			this.summary = summary;
 			this.sponsorImage = sponsorImage;
 			this.website = website;
@@ -253,15 +253,15 @@ public class Guide extends Application implements Serializable {
 		sessions.add(new Session(day, track, time, endTime, speaker, speakerImage, title, summary));
 	}
 	
-	public void addSponsor(String organization, int level, int order, String levelCommonName, String summary, String sponsorImage, String website, Boolean booth) {
-		sponsors.add(new Sponsor(organization, level, order, levelCommonName, summary, sponsorImage, website, booth));
+	public void addSponsor(String organization, int level, int order, String summary, String sponsorImage, String website, Boolean booth) {
+		sponsors.add(new Sponsor(organization, level, order, summary, sponsorImage, website, booth));
 	}
 	
-	public void addVenue(String name, String address, int zipcode, String cityState, URI map, ArrayList<String> vmaps) {
+	public void setVenue(String name, String address, int zipcode, String cityState, URI map, ArrayList<String> vmaps) {
 		venue = new Venue(name, address, zipcode, cityState, map, vmaps);
 	}
 	
-	public void addAfterparty(String name, String address, int zipcode, String cityState, URI map) {
+	public void setAfterparty(String name, String address, int zipcode, String cityState, URI map) {
 		afterparty = new Afterparty(name, address, zipcode, cityState, map);
 	}
 	
@@ -278,6 +278,7 @@ public class Guide extends Application implements Serializable {
 		return tracks;
 	}
 	public ArrayList<Sponsor> getSponsorsByLevel(int n) {
+		Log.d(LOG_TAG,"in getSponsorsByLevel()");
 		ArrayList<Sponsor> s = new ArrayList<Sponsor>();
 		for (Sponsor sponsor : this.sponsors) {
 			if (sponsor.level == n) {
@@ -285,10 +286,12 @@ public class Guide extends Application implements Serializable {
 				s.add(sponsor);
 			}
 		}
+		Log.d(LOG_TAG,"Sorting sponsors");
 		Collections.sort(s);
 		return s;
 	}
 	public int getNumSponsorsByLevel(int n) {
+		Log.d(LOG_TAG,"In getNumSponsorsByLevel");
 		return getSponsorsByLevel(n).size();
 	}
 	public Venue getVenue() {
