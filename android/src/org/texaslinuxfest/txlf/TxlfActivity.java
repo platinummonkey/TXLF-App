@@ -8,6 +8,7 @@ import android.app.*;
 import android.content.*;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -136,9 +137,9 @@ public class TxlfActivity extends Activity {
         	Toast toast = Toast.makeText(context, text, duration);
         	toast.show();
         	// Forward user to market to install Barcode Scanner - this has been disabled for the emulator
-        	//Intent goToMarket = new Intent(Intent.ACTION_VIEW)
-        	//	.setData(Uri.parse("market://details?id=com.google.zxing.client.android.SCAN"));
-        	//startActivity(goToMarket);
+        	Intent goToMarket = new Intent(Intent.ACTION_VIEW)
+        		.setData(Uri.parse("market://details?id=com.google.zxing.client.android.SCAN"));
+        	startActivity(goToMarket);
         }
 
         boolean guideReady = checkGuide();
@@ -146,10 +147,14 @@ public class TxlfActivity extends Activity {
         	//Guide is ready and session information is available
         	Log.v(LOG_TAG, "Guide is ready - Sessions available");
         	sessionsButton.setEnabled(true);
+        	venueButton.setEnabled(true);
+        	sponsorsButton.setEnabled(true);
         } else {
         	// Guide is not available - .:. session information not available
         	Log.v(LOG_TAG, "Guide is NOT ready - Sessions unavailable");
         	sessionsButton.setEnabled(false);
+        	venueButton.setEnabled(false);
+        	sponsorsButton.setEnabled(false);
         	// Toast Message
         	Context context = getApplicationContext();
         	CharSequence text = "Guide is unavailabe!\nPlease allow time to download and restart TXLF App";
@@ -195,6 +200,8 @@ public class TxlfActivity extends Activity {
     	Toast toast = Toast.makeText(context, guideStatus, duration);
     	toast.show();
     	sessionsButton.setEnabled(true);
+    	venueButton.setEnabled(true);
+    	sponsorsButton.setEnabled(true);
     }
     
     public Date convertStringToDate(String dateString) {

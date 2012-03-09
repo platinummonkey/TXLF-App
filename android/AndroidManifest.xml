@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name="AddContact" android:label="@string/addContactTitle"></activity>
+		<activity android:name=".AddContact" android:label="@string/addContactTitle"></activity>
 		<activity android:name=".Sessions"></activity>
 		<activity android:name=".SessionView"></activity>
 		<activity android:name=".Sponsors"></activity>

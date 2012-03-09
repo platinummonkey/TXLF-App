@@ -72,4 +72,3 @@ public class SponsorListAdapter extends BaseAdapter {
 		ImageView image;
 	}
 }
-

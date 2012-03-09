@@ -290,6 +290,9 @@ public class Guide extends Application implements Serializable {
 		Collections.sort(s);
 		return s;
 	}
+	public int getNumSponsorLevels() {
+		return sponsors.size();
+	}
 	public int getNumSponsorsByLevel(int n) {
 		Log.d(LOG_TAG,"In getNumSponsorsByLevel");
 		return getSponsorsByLevel(n).size();
@@ -308,9 +311,9 @@ public class Guide extends Application implements Serializable {
 			images.add(this.sessions.get(i).getSpeakerImage());
 		}
 		// sponsors
-		//for (int i = 0; i < this.sponsors.size(); i++) {
-		//	images.add(this.sponsors.get(i).getSponsorImage());
-		//}
+		for (int i = 0; i < this.sponsors.size(); i++) {
+			images.add(this.sponsors.get(i).getSponsorImage());
+		}
 		// venue
 		//for (int i = 0; i < this.venue.getVenueMaps().size(); i++) {
 		//	images.add(this.venue.getVenueMap(i));

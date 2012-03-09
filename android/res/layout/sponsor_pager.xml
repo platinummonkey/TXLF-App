@@ -4,6 +4,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="#F0E0B2" >
+    <TextView
+    	android:layout_width="fill_parent"
+    	android:gravity="center_horizontal"
+    	android:layout_height="wrap_content"
+    	android:textColor="#8e9f13"
+    	android:background="#006772"
+    	android:textAppearance="?android:attr/textAppearanceMedium"
+   		android:id="@+id/sponsor_level_desc"
+    	android:text="@string/session_track"></TextView>
 	<ListView
     	android:id="@+id/SponsorListView"
         android:layout_width="fill_parent"

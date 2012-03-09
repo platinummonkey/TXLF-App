@@ -1,11 +1,11 @@
 package org.texaslinuxfest.txlf;
 
+import org.texaslinuxfest.txlf.Guide.Sponsor;
+import static org.texaslinuxfest.txlf.Constants.SPONSORTYPE;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import org.texaslinuxfest.txlf.Guide.Sponsor;
-import static org.texaslinuxfest.txlf.Constants.SESSIONTYPE;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,17 +33,18 @@ public class SponsorView extends Activity {
         super.onCreate(savedInstanceState);
         Bundle b = this.getIntent().getExtras();
         if (b!=null) {
-        	sponsor = (Sponsor) b.getSerializable(SESSIONTYPE);
-        	Log.d(LOG_TAG,"Got guide through intent Serializable");
+        	sponsor = (Sponsor) b.getSerializable(SPONSORTYPE);
+        	Log.d(LOG_TAG,"Got sponsor through intent Serializable");
         } else {
-        	Log.e(LOG_TAG,"Unable to get guide through Intent");
+        	Log.e(LOG_TAG,"Unable to get sponsor through Intent");
         }
         cacheDir = this.getCacheDir();
         
         setContentView(R.layout.sponsor_view);
         
         this.sponsorName = (TextView) this.findViewById(R.id.sponsorName);
-        this.sponsorName.setText(sponsor.getOrganizationName(21)); // get first 21 characters
+        String stext = this.sponsor.getOrganizationName();
+        this.sponsorName.setText(stext); // get first 21 characters
         
         this.sponsorStatus = (TextView) this.findViewById(R.id.sponsorStatus);
         this.sponsorStatus.setText(sponsor.getSponsorStatus());
