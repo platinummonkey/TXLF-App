@@ -200,13 +200,9 @@ public class Guide extends Application implements Serializable {
 	}
 
 	class Venue implements Serializable {
-		@SuppressWarnings("unused")
 		private String name;
-		@SuppressWarnings("unused")
 		private String address;
-		@SuppressWarnings("unused")
 		private int zipcode;
-		@SuppressWarnings("unused")
 		private String cityState;
 		private URI map;
 		private List<String> vmaps;

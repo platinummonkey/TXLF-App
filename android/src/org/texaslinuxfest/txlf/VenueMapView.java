@@ -1,15 +1,9 @@
 package org.texaslinuxfest.txlf;
 
-import static org.texaslinuxfest.txlf.Constants.SPONSORTYPE;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import org.texaslinuxfest.txlf.Guide.Sponsor;
-
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;

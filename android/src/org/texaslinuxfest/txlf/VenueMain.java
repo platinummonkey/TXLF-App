@@ -1,12 +1,9 @@
 package org.texaslinuxfest.txlf;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.texaslinuxfest.txlf.Guide;
-import org.texaslinuxfest.txlf.Guide.Sponsor;
 import org.texaslinuxfest.txlf.Guide.Venue;
 import static org.texaslinuxfest.txlf.Constants.*;
 
@@ -14,7 +11,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,7 +35,7 @@ public class VenueMain extends Activity {
         }
         setContentView(R.layout.sponsors);
         
-        Venue venue = guide.getVenue();
+        venue = guide.getVenue();
         
         TextView venueName  = (TextView) this.findViewById(R.id.venueName);
         venueName.setText(venue.getName());
