@@ -83,8 +83,8 @@ public class TxlfActivity extends Activity {
 				Bundle b = new Bundle();
 				b.putSerializable(GUIDETYPE, guide);
 				intent.putExtras(b);
-				//intent.setClass(TxlfActivity.this, Sessions.class);
-		        //startActivity(intent);
+				intent.setClass(TxlfActivity.this, VenueMain.class);
+		        startActivity(intent);
 			}
 		});
         //Sponsors Button
@@ -363,6 +363,8 @@ public class TxlfActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.menu_Download:
             	sessionsButton.setEnabled(false);
+            	sponsorsButton.setEnabled(false);
+            	venueButton.setEnabled(false);
             	Toast.makeText(this, "Forcing Guide Update", Toast.LENGTH_LONG).show();
             	Log.d(LOG_TAG, "Forcing Guide update");
 
@@ -372,6 +374,14 @@ public class TxlfActivity extends Activity {
         		gds.putExtra("force", true);
                 context.startService(gds);
                 break;
+            //case R.id.menu_Itinerary:
+            	//Context c = getApplicationContext();
+        		//Intent i = new Intent(this, Itinerary.class);
+        		//Bundle b = new Bundle();
+        		//b.putSerializable(GUIDETYPE, guide)
+        		//i.putExtra(b);
+                //c.startActivity(i);
+            	//break;
         }
         return true;
     }

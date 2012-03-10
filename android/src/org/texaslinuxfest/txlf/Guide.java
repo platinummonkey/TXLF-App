@@ -3,6 +3,8 @@ package org.texaslinuxfest.txlf;
 import static org.texaslinuxfest.txlf.Constants.*;
 import java.io.Serializable;
 import java.net.URI;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -12,6 +14,7 @@ import android.util.Log;
 @SuppressWarnings("serial")
 public class Guide extends Application implements Serializable {
 	// Defines the guide Object for storage and reading.
+	
 	
 	private String LOG_TAG = "Guide Object";
 	String year;
@@ -96,6 +99,9 @@ public class Guide extends Application implements Serializable {
 		public String getSummary() {
 			return this.summary;
 		}
+		public String getHash() {
+			return '0'+md5(this.title);
+		}
 		public boolean equals(Object o) {
 			// check if two are the same thing (only check title)
 			if (!(o instanceof Session))
@@ -173,6 +179,9 @@ public class Guide extends Application implements Serializable {
 		public String getSponsorStatus() {
 			return SPONSORSTATUSES.get(this.level);
 		}
+		public String getHash() {
+			return '1'+md5(this.organization);
+		}
 		public boolean equals(Object o) {
 			// check if two are the same thing (only check title)
 			if (!(o instanceof Sponsor))
@@ -201,7 +210,6 @@ public class Guide extends Application implements Serializable {
 		private String cityState;
 		private URI map;
 		private List<String> vmaps;
-		private List<String> tracks = new ArrayList<String>();
 		
 		public Venue (String name, String address, int zipcode, String cityState, URI map, ArrayList<String> vmaps) {
 			this.name = name;
@@ -209,11 +217,16 @@ public class Guide extends Application implements Serializable {
 			this.zipcode = zipcode;
 			this.cityState = cityState;
 			this.map = map;
-			
+			this.vmaps = vmaps;
 		}
-		
-		public void addTrack(String track) {
-			tracks.add(track);
+		public String getName() {
+			return this.name;
+		}
+		public ArrayList<String> getAddress() {
+			ArrayList<String> alist = new ArrayList<String>();
+			alist.add(this.address);
+			alist.add(this.cityState + ", " + Integer.toString(this.zipcode));
+			return alist;
 		}
 		public URI getMap() {
 			return this.map;
@@ -223,6 +236,20 @@ public class Guide extends Application implements Serializable {
 		}
 		public String getVenueMap(int mapNumber) {
 			return this.vmaps.get(mapNumber);
+		}
+		public ArrayList<List<String>> getVenueMapsSeq(){
+			ArrayList<List<String>> vmaps_list = new ArrayList<List<String>>();
+			ArrayList<String> ttitles = new ArrayList<String>();
+			for (List<String> day : TRACKTITLES) {
+				for (String track : day) {
+					ttitles.add(track);
+				}
+			}
+			int i;
+			for (i=0; i<this.vmaps.size(); i++) {
+				vmaps_list.add(Arrays.asList(ttitles.get(i),this.vmaps.get(i)));
+			}
+			return vmaps_list;
 		}
 	}
 	
@@ -319,5 +346,49 @@ public class Guide extends Application implements Serializable {
 		//	images.add(this.venue.getVenueMap(i));
 		//}
 		return images;
+	}
+	public String md5(String s) {
+	    try {
+	        // Create MD5 Hash
+	        MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+	        digest.update(s.getBytes());
+	        byte messageDigest[] = digest.digest();
+	        
+	        // Create Hex String
+	        StringBuffer hexString = new StringBuffer();
+	        for (int i=0; i<messageDigest.length; i++)
+	            hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+	        return hexString.toString();
+	        
+	    } catch (NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    }
+	    return "";
+	}
+	public Object getObjectFromHash(String mhash) {
+		Integer type = Integer.parseInt(mhash.substring(0, 1));
+		String hash = mhash.substring(1,mhash.length()-1);
+		Object o = null;
+		switch(type) {
+			case 0: // Session
+				for (Session session : this.sessions) {
+					if (md5(session.getTitle()) == hash) {
+						o = session;
+						break;
+					}
+				}
+				break;
+			case 1: // Sponsor
+				for (Sponsor sponsor : this.sponsors) {
+					if (md5(sponsor.getOrganizationName()) == hash) {
+						o = sponsor;
+						break;
+					}
+				}
+				break;
+			default:
+				break;
+		};
+		return o;
 	}
 }

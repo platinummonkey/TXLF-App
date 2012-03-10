@@ -24,6 +24,8 @@
 		<activity android:name=".SessionView"></activity>
 		<activity android:name=".Sponsors"></activity>
 		<activity android:name=".SponsorView"></activity>
+		<activity android:name=".VenueMain"></activity>
+		<activity android:name=".VenueMapView"></activity>
 		<activity android:name=".Register" android:label="@string/app_name"
 		    android:theme="@android:style/Theme.NoTitleBar"></activity>
 		<activity android:name=".Survey" android:label="@string/app_name"

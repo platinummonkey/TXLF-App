@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0E0B2">
+	<include layout="@layout/header"
+	    android:layout_height="wrap_content"
+	    android:id="@+id/include1"
+	    android:layout_width="match_parent"></include>
+	<TextView
+		android:id="@+id/venueMapViewTrack"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="Friday Track A"
+	    android:textColor="#006772"
+	    android:textSize="16dip" />
+	<ImageView
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:id="@+id/venueMapViewImage"
+    	android:src="@drawable/avatar" />
+</LinearLayout>

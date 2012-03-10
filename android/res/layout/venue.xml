@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F0E0B2">
+	<include layout="@layout/header"
+	    android:layout_height="wrap_content"
+	    android:id="@+id/include1"
+	    android:layout_width="match_parent"></include>
+	<TextView
+		android:id="@+id/venueName"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="Venue Name"
+	    android:textColor="#006772"
+	    android:textSize="16dip" />
+	<TextView
+		android:id="@+id/venueAddress_l1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="1234 TXLF Street"
+	    android:textColor="#006772"
+	    android:textSize="12dip" />
+	<TextView
+		android:id="@+id/venueAddress_l2"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="Whoknows, TX 12345"
+	    android:textColor="#006772"
+	    android:textSize="12dip" />
+	<TextView
+		android:id="@+id/venueMap"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    android:text="Map Link"
+	    android:textColor="#006772"
+	    android:textSize="12dip" />
+	
+	<TextView
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingTop="10dip"
+	    android:paddingLeft="6dip"
+	    android:gravity="left"
+	    android:text="
+Venue Maps:"
+	    android:textColor="#006772"
+	    android:textSize="12dip" />
+	<ScrollView
+	    android:id="@+id/scrollView1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content">
+	    <ListView
+    		android:id="@+id/venueTrackMapsListView"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:paddingLeft="6dip"
+        	android:paddingRight="6dip" />    
+	</ScrollView>
+</LinearLayout>
