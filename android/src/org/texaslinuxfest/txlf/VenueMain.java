@@ -28,12 +28,12 @@ public class VenueMain extends Activity {
         super.onCreate(savedInstanceState);
         Bundle b = this.getIntent().getExtras();
         if (b!=null) {
-        	this.guide = (Guide) b.getSerializable(GUIDETYPE);
+        	guide = (Guide) b.getSerializable(GUIDETYPE);
         	Log.d(LOG_TAG,"Got guide through intent Serializable");
         } else {
         	Log.e(LOG_TAG,"Unable to get guide through Intent");
         }
-        setContentView(R.layout.sponsors);
+        setContentView(R.layout.venue);
         
         venue = guide.getVenue();
         

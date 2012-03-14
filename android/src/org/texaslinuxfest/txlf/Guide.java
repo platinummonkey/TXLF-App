@@ -236,9 +236,11 @@ public class Guide extends Application implements Serializable {
 		public ArrayList<List<String>> getVenueMapsSeq(){
 			ArrayList<List<String>> vmaps_list = new ArrayList<List<String>>();
 			ArrayList<String> ttitles = new ArrayList<String>();
-			for (List<String> day : TRACKTITLES) {
-				for (String track : day) {
-					ttitles.add(track);
+			for (int i=0; i<TRACKTITLES.size(); i++) { //List<String> day : TRACKTITLES) {
+				String dname = DAYTITLES.get(i);
+				List<String> daytracks = TRACKTITLES.get(i);
+				for (String track : daytracks) {
+					ttitles.add(dname + " " + track);
 				}
 			}
 			int i;
