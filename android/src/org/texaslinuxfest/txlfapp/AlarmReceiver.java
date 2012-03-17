@@ -1,4 +1,4 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -6,8 +6,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.*;
 import android.util.Log;
-import static org.texaslinuxfest.txlf.Constants.GUIDE_UPDATE_HOUR;
-import static org.texaslinuxfest.txlf.Constants.GUIDE_UPDATE_MIN;
+import static org.texaslinuxfest.txlfapp.Constants.GUIDE_UPDATE_HOUR;
+import static org.texaslinuxfest.txlfapp.Constants.GUIDE_UPDATE_MIN;
 
 public class AlarmReceiver extends BroadcastReceiver {
 	 

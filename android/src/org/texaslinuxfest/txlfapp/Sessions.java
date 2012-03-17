@@ -1,8 +1,9 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import org.texaslinuxfest.txlf.Guide;
-import org.texaslinuxfest.txlf.Guide.Session;
-import static org.texaslinuxfest.txlf.Constants.*;
+import org.texaslinuxfest.txlfapp.Guide;
+import org.texaslinuxfest.txlfapp.Guide.Session;
+
+import static org.texaslinuxfest.txlfapp.Constants.*;
 
 import java.util.ArrayList;
 import android.app.TabActivity;

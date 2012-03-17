@@ -1,8 +1,8 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import static org.texaslinuxfest.txlf.Constants.GUIDETYPE;
-import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
-import static org.texaslinuxfest.txlf.Constants.GUIDEURL;
+import static org.texaslinuxfest.txlfapp.Constants.GUIDEFILE;
+import static org.texaslinuxfest.txlfapp.Constants.GUIDETYPE;
+import static org.texaslinuxfest.txlfapp.Constants.GUIDEURL;
 
 import java.io.*;
 import java.net.URI;

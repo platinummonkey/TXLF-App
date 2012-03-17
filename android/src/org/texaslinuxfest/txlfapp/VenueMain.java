@@ -1,11 +1,12 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.texaslinuxfest.txlf.Guide;
-import org.texaslinuxfest.txlf.Guide.Venue;
-import static org.texaslinuxfest.txlf.Constants.*;
+import org.texaslinuxfest.txlfapp.Guide;
+import org.texaslinuxfest.txlfapp.Guide.Venue;
+
+import static org.texaslinuxfest.txlfapp.Constants.*;
 
 import android.app.Activity;
 import android.content.Context;

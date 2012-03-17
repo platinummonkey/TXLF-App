@@ -1,6 +1,6 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import static org.texaslinuxfest.txlf.Constants.REGISTERURL;
+import static org.texaslinuxfest.txlfapp.Constants.REGISTERURL;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.KeyEvent;

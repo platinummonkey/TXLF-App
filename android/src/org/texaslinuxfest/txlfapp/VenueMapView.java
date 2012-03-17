@@ -1,4 +1,4 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,6 +1,7 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import static org.texaslinuxfest.txlf.Constants.*;
+import static org.texaslinuxfest.txlfapp.Constants.*;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.security.MessageDigest;

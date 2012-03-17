@@ -1,15 +1,14 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import static org.texaslinuxfest.txlf.Constants.GUIDEFILE;
-import static org.texaslinuxfest.txlf.Constants.MEDIAURL;
-import org.texaslinuxfest.txlf.Guide;
+import static org.texaslinuxfest.txlfapp.Constants.GUIDEFILE;
+import static org.texaslinuxfest.txlfapp.Constants.MEDIAURL;
+import org.texaslinuxfest.txlfapp.Guide;
 
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import android.app.Service;
 import android.content.*;
 import android.graphics.Bitmap;

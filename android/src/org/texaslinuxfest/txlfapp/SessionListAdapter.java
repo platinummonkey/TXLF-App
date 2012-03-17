@@ -1,6 +1,6 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import org.texaslinuxfest.txlf.Guide.Session;
+import org.texaslinuxfest.txlfapp.Guide.Session;
 
 import java.util.ArrayList;
 import android.content.Context;

@@ -1,11 +1,12 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.texaslinuxfest.txlf.Guide.Session;
-import static org.texaslinuxfest.txlf.Constants.SESSIONTYPE;
+import org.texaslinuxfest.txlfapp.Guide.Session;
+
+import static org.texaslinuxfest.txlfapp.Constants.SESSIONTYPE;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

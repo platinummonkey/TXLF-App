@@ -1,7 +1,8 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
-import org.texaslinuxfest.txlf.Guide.Sponsor;
-import static org.texaslinuxfest.txlf.Constants.SPONSORTYPE;
+import org.texaslinuxfest.txlfapp.Guide.Sponsor;
+
+import static org.texaslinuxfest.txlfapp.Constants.SPONSORTYPE;
 
 import java.io.File;
 import java.io.FileInputStream;

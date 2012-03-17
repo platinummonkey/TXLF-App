@@ -1,4 +1,4 @@
-package org.texaslinuxfest.txlf;
+package org.texaslinuxfest.txlfapp;
 
 import java.io.*;
 import java.text.*;
@@ -17,10 +17,10 @@ import android.view.View;
 import android.widget.*;
 import android.util.Log;
 
-import static org.texaslinuxfest.txlf.Constants.*;
+import static org.texaslinuxfest.txlfapp.Constants.*;
 
-import org.texaslinuxfest.txlf.Guide;
-import org.texaslinuxfest.txlf.AlarmReceiver;
+import org.texaslinuxfest.txlfapp.AlarmReceiver;
+import org.texaslinuxfest.txlfapp.Guide;
 
 public class TxlfActivity extends Activity {
 
