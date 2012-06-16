@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/background">
+    style="@style/MainLinearLayout">
     <include layout="@layout/header" android:layout_height="wrap_content" android:id="@+id/include1" android:layout_width="match_parent"></include>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     	android:orientation="vertical"
     	android:layout_width="fill_parent"
     	android:layout_height="fill_parent"
     	android:layout_gravity="center_vertical">
-    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_scan" android:text="@string/btn_network"></Button>
-    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_sessions" android:text="@string/btn_sessions"></Button>
-    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_venue" android:text="@string/btn_venue"></Button>
-    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_sponsors" android:text="@string/btn_sponsors"></Button>
-    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_register" android:text="@string/btn_register"></Button>
-    	<Button android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_width="match_parent" android:layout_margin="10dip" android:textSize="20dip" android:hapticFeedbackEnabled="true" android:id="@+id/button_survey" android:text="@string/btn_survey"></Button>
+    	<Button style="@style/MainButton" android:id="@+id/button_scan" android:text="@string/btn_network"></Button>
+    	<Button style="@style/MainButton" android:id="@+id/button_sessions" android:text="@string/btn_sessions"></Button>
+    	<Button style="@style/MainButton" android:id="@+id/button_venue" android:text="@string/btn_venue"></Button>
+    	<Button style="@style/MainButton" android:id="@+id/button_sponsors" android:text="@string/btn_sponsors"></Button>
+    	<Button style="@style/MainButton" android:id="@+id/button_register" android:text="@string/btn_register"></Button>
+    	<Button style="@style/MainButton" android:id="@+id/button_survey" android:text="@string/btn_survey"></Button>
+
+    	<ImageView
+    	    android:id="@+id/imageView1"
+    	    android:layout_width="match_parent"
+    	    android:layout_height="match_parent"
+    	    android:layout_gravity="center_horizontal"
+    	    android:src="@drawable/badge_shadow_trans" />
+
     	</LinearLayout>
 </LinearLayout>

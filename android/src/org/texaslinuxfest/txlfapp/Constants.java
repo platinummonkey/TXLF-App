@@ -24,6 +24,8 @@ public interface Constants {
 	String REGISTERURL = "http://register.texaslinuxfest.org";
 	String SURVEYURL = "http://texaslinuxfest.org/survey/";
 	String RATINGSURL = "http://texaslinuxfest.org/ratings/submit/";
+	String VENUEURL = "http://norriscenters.com/SanAntonio/";
+	String VENUEMAPURL = "https://maps.google.com/maps?q=4522+Fredericksburg+Road+San+Antonio,+TX+78201&hl=en&geocode=+&hnear=4522+Fredericksburg+Rd,+Balcones+Heights,+Bexar,+Texas+78201&t=m&z=16";
 	
 	// Sponsors - Only used by sponsors
 	String SPONSORUNLOCKCODE = "SP0NS0RS";

@@ -11,6 +11,7 @@ import static org.texaslinuxfest.txlfapp.Constants.*;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,5 +73,17 @@ public class VenueMain extends Activity {
 		intent.putExtra("MAP", mapset.get(1));
 		intent.setClass(VenueMain.this, VenueMapView.class);
         startActivity(intent);
+    }
+    public void onVenueMapClick(View v) {
+    	// Launch web browser view of google map (may default to google maps app)
+    	Intent i = new Intent(Intent.ACTION_VIEW);
+    	i.setData(Uri.parse(VENUEMAPURL));
+    	startActivity(i);
+    }
+    public void onVenueTitleClick(View v) {
+    	// launch web browswer view of venue website
+    	Intent i = new Intent(Intent.ACTION_VIEW);
+    	i.setData(Uri.parse(VENUEURL));
+    	startActivity(i);
     }
 }

@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="#006772">
-    <RelativeLayout android:layout_width="match_parent" android:id="@+id/relativeLayout1" android:layout_gravity="top" android:layout_height="wrap_content" android:gravity="top">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#8e9f13" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_alignParentLeft="true" android:id="@+id/event_name" android:text="@string/event_name" android:layout_marginLeft="5dip"></TextView>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#8e9f13" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_alignParentRight="true" android:id="@+id/event_year" android:text="@string/event_year" android:layout_marginRight="5dip"></TextView>
-    </RelativeLayout>
+    style="@style/LinearLayoutThemeHeader" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="25dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/badge_year_trans" />
+
+    <TextView
+        android:id="@+id/event_name"
+        style="@style/TextViewThemeHeader"
+        android:layout_marginLeft="2dip"
+        android:layout_weight="1"
+        android:text="@string/event_name" />
+
+    <TextView
+        android:id="@+id/event_year"
+        style="@style/TextViewThemeHeader"
+        android:layout_gravity="right"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:text="@string/event_year" />
+
 </LinearLayout>

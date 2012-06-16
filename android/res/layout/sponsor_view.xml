@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0E0B2">
+    android:background="@color/bgcolorWhite">
 	<include layout="@layout/header"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/include1"
@@ -45,7 +45,7 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
 	                android:text="Some Awesome Sponsor"
-	                android:textColor="#006772"
+	                android:textColor="@color/color2"
 	                android:textSize="22dip"
 	                android:textStyle="bold" />
 
@@ -55,7 +55,7 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
 	                android:text="Gold Sponsor"
-	                android:textColor="#006772"
+	                android:textColor="@color/color2"
 	                android:textSize="16dip" />
 
 	            <TextView
@@ -63,14 +63,14 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:text="http://someawesomesponsor.com/"
-	                android:textColor="#006772"
+	                android:textColor="@color/color2"
 	                android:textSize="10dip" />
 	            <TextView
 	                android:id="@+id/sponsorBoothBool"
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:text="Booth Available"
-	                android:textColor="#006772"
+	                android:textColor="@color/color2"
 	                android:textSize="10dip" />
 	        </LinearLayout>
 
@@ -100,7 +100,7 @@ and on and on8..."
 	    			android:layout_below="@id/sponsorImage"
 	    			android:layout_alignParentLeft="true"
 	    			android:layout_alignParentBottom="true"
-	    			android:textColor="#006772" />
+	    			android:textColor="@color/color1" />
 
 	    </RelativeLayout>
 	</ScrollView>

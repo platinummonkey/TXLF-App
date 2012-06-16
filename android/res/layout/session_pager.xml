@@ -3,14 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#F0E0B2" >
+    android:background="@color/bgcolorWhite" >
     <TextView
-    	android:layout_width="fill_parent"
-    	android:gravity="center_horizontal"
-    	android:layout_height="wrap_content"
-    	android:textColor="#8e9f13"
-    	android:background="#006772"
-    	android:textAppearance="?android:attr/textAppearanceMedium"
+    	style="@style/sessionPagerTV"
    		android:id="@+id/session_day_track_desc"
     	android:text="@string/session_track"></TextView>
 	<ListView

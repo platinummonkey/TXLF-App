@@ -40,6 +40,17 @@ public class TxlfActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check if first run and assign random UUID for form submissions.
+        /*boolean firstrun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("firstrun", true);
+        if (firstrun) {
+        	UUID uuid = UUID.randomUUID();
+        	getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+        	.putBoolean("firstrun", false)
+        	.putString("UUID", uuid.toString())
+        	.commit();
+        }*/
+        
+        // build interface
         setContentView(R.layout.main);
         
         //declare buttons

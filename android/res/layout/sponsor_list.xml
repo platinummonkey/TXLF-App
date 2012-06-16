@@ -20,7 +20,7 @@
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
       android:textSize="20dip"
-      android:textColor="#006772"
+      android:textColor="@color/color1"
       android:layout_gravity="center"
       android:paddingLeft="6dip" />
 

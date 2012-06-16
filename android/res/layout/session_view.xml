@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0E0B2">
+    android:background="@color/bgcolorWhite">
 	<include layout="@layout/header"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/include1"
@@ -16,19 +16,19 @@
 	    android:text="Awesome Talk"
 	    android:textSize="20dip"
 	    android:gravity="center_horizontal"
-	    android:background="#8e9f13"
-	    android:textColor="#006772" />
+	    android:background="@color/bgcolor2"
+	    android:textColor="@color/colorWhite" />
 	
 	<ScrollView
 	    android:id="@+id/scrollView1"
 	    android:layout_width="match_parent"
-	    android:layout_height="fill_parent"
+	    android:layout_height="0dp"
 	    android:layout_weight="1" >
 
 	    <RelativeLayout
 	        android:id="@+id/relativeLayout1"
 	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
+	        android:layout_height="wrap_content"
 	        android:padding="6dip" >
 	        <ImageView
 	            android:id="@+id/sessionImage"
@@ -56,7 +56,7 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
 	                android:text="Saturday Track A"
-	                android:textColor="#006772"
+	                android:textColor="@color/color2"
 	                android:textSize="22dip"
 	                android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
 	                android:layout_height="wrap_content"
 	                android:gravity="center_horizontal"
 	                android:text="8:00 AM -9:00 AM"
-	                android:textColor="#006772"
+	                android:textColor="@color/color2"
 	                android:textSize="16dip" />
 
 	            <TextView
@@ -80,7 +80,7 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:text="By: Joe Speaker"
-	                android:textColor="#006772" />
+	                android:textColor="@color/color2" />
 	        </LinearLayout>
 
 	        <TextView
@@ -108,7 +108,7 @@ and on and on8..."
 	    			android:layout_below="@id/sessionImage"
 	    			android:layout_alignParentLeft="true"
 	    			android:layout_alignParentBottom="true"
-	    			android:textColor="#006772" />
+	    			android:textColor="@color/color1" />
 
 	    </RelativeLayout>
 	</ScrollView>

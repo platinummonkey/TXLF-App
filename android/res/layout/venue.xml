@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F0E0B2">
+    android:background="@color/bgcolorWhite">
 	<include layout="@layout/header"
 	    android:layout_height="wrap_content"
 	    android:id="@+id/include1"
@@ -14,7 +14,9 @@
 	    android:layout_height="wrap_content"
 	    android:gravity="center_horizontal"
 	    android:text="Venue Name"
-	    android:textColor="#006772"
+	    android:textColor="@color/color2"
+	    android:onClick="onVenueTitleClick"
+	    android:clickable="true"
 	    android:textSize="16dip" />
 	<TextView
 		android:id="@+id/venueAddress_l1"
@@ -22,7 +24,7 @@
 	    android:layout_height="wrap_content"
 	    android:gravity="center_horizontal"
 	    android:text="1234 TXLF Street"
-	    android:textColor="#006772"
+	    android:textColor="@color/color2"
 	    android:textSize="12dip" />
 	<TextView
 		android:id="@+id/venueAddress_l2"
@@ -30,7 +32,7 @@
 	    android:layout_height="wrap_content"
 	    android:gravity="center_horizontal"
 	    android:text="Whoknows, TX 12345"
-	    android:textColor="#006772"
+	    android:textColor="@color/color2"
 	    android:textSize="12dip" />
 	<TextView
 		android:id="@+id/venueMap"
@@ -38,7 +40,9 @@
 	    android:layout_height="wrap_content"
 	    android:gravity="center_horizontal"
 	    android:text="Map Link"
-	    android:textColor="#006772"
+	    android:textColor="@color/color2"
+	    android:onClick="onVenueMapClick"
+	    android:clickable="true"
 	    android:textSize="12dip" />
 	
 	<TextView
@@ -49,7 +53,7 @@
 	    android:gravity="left"
 	    android:text="
 Venue Maps:"
-	    android:textColor="#006772"
+	    android:textColor="@color/color1"
 	    android:textSize="12dip" />
 	<LinearLayout
 	    android:layout_width="fill_parent"
