@@ -1,0 +1,8 @@
+n: name
+pw: work phone
+pm: mobile phone
+e: email;
+www: website
+t: job title
+c: company
+adr: address

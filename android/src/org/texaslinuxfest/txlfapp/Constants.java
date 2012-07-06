@@ -27,6 +27,12 @@ public interface Constants {
 	String VENUEURL = "http://norriscenters.com/SanAntonio/";
 	String VENUEMAPURL = "https://maps.google.com/maps?q=4522+Fredericksburg+Road+San+Antonio,+TX+78201&hl=en&geocode=+&hnear=4522+Fredericksburg+Rd,+Balcones+Heights,+Bexar,+Texas+78201&t=m&z=16";
 	
+	// REST Services
+	String REST_SURVEY = "http://2012.texaslinuxfest.org/?q=txlfapp/";
+	String REST_SURVEYSUBMIT = REST_SURVEY+"node.json";
+	String REST_SURVEYUPDATE = REST_SURVEY+"node/";
+	String REST_SURVEYCONNECT= REST_SURVEY+"system/connect.json";
+	
 	// Sponsors - Only used by sponsors
 	String SPONSORUNLOCKCODE = "SP0NS0RS";
 	

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, TxlfActivity!</string>
+    <string name="dash"> - </string>
+    <string name="app_name">Txlf</string>
+    <string name="event_name">Texas Linux Festival</string>
+    <string name="event_year">2012</string>
+    <string name="btn_network">Scan TXLF Badge</string>
+    <string name="btn_sessions">Sessions</string>
+    <string name="btn_venue">Venue</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_survey">Survey</string>
+    <string name="btn_sponsors">Sponsors</string>
+    <string name="accountSpinnerLabel">Account</string>
+    <string name="addContactButtonLabel">Add Contact</string>
+    <string name="addContactTitle">Add Contact</string>
+    <string name="allAccounts">All Accounts</string>
+    <string name="contactCreationFailure">Contact creation failed, check logs.</string>
+    <string name="contactEmailLabel">Contact Email</string>
+    <string name="contactNameLabel">Contact Name</string>
+    <string name="contactWorkPhoneLabel">Work Phone</string>
+    <string name="contactHomePhoneLabel">Home Phone</string>
+    <string name="contactMobilePhoneLabel">Mobile Phone</string>
+    <string name="contactWebsiteLabel">Website</string>
+    <string name="contactWorkAddressLabel">Work Address</string>
+    <string name="contactOrganizationLabel">Mobile Phone</string>
+    <string name="save">Save Contact</string>
+    <string name="selectAccountLabel">Select</string>
+    <string name="selectLabel">Select label</string>
+    <string name="targetAccountLabel">Target Account</string>
+    <string name="undefinedTypeLabel">(Undefined)</string>
+    <string name="session_track">Track A</string>
+    <string name="session_day">Friday, April 1, 2012</string>
+    <string name="session_day_short1">Fri</string>
+    <string name="session_day_short2">Sat</string>
+    <string name="session_day_sep_blank"> </string>
+</resources>

@@ -260,6 +260,5 @@ public class GuideDownloaderService extends Service {
 			e.printStackTrace();
 		}
 		return builder.toString();
-	}
-    
+	}   
 }

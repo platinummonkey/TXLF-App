@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color1">#489ec8</color>
+    <color name="color2">#f8992b</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="bgcolorWhite">#eaeaea</color>
+    <color name="bgcolor1">#f8992b</color>
+    <color name="bgcolor2">#489ec8</color>
+    
+    <color name="color1g1">#55a2c8</color>
+    <color name="color1g2">#3f89ae</color>
+    <color name="color2g1">#f89c32</color>
+    <color name="color2g2">#e78e28</color>
+    
+    <style name="LinearLayoutThemeHeader">
+        <item name="android:layout_width">fill_parent</item>
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:orientation">horizontal</item>
+    	<item name="android:background">@color/bgcolor1</item>
+    </style>
+    <style name="TextViewThemeHeader" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!-- <item name="android:textSize">10sp</item>  -->
+    </style>
+    <style name="MainButton" parent="@android:style/Widget.Button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dip</item>
+        <item name="android:textSize">20dip</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:hapticFeedbackEnabled">true</item>
+        <item name="android:background">@drawable/custom_button</item>
+    </style>
+    <style name="sessionPagerTV" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+    	<item name="android:gravity">center_horizontal</item>
+    	<item name="android:layout_height">wrap_content</item>
+    	<item name="android:textColor">@color/colorWhite</item>
+    	<item name="android:background">@color/color2</item>
+    </style>
+    <style name="MainLinearLayout">
+        <item name="android:orientation">vertical</item>
+    	<item name="android:layout_width">fill_parent</item>
+    	<item name="android:layout_height">fill_parent</item>
+    	<!-- <item name="android:background">@drawable/background</item>  -->
+    	<item name="android:background">@color/bgcolorWhite</item>
+    </style>
+</resources>
