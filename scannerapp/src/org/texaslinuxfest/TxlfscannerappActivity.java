@@ -2,11 +2,12 @@ package org.texaslinuxfest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.ContactsContract;
-
 import java.io.File;
-import java.text.*;
-import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 import org.json.*;
 import android.content.*;
 import android.content.pm.ApplicationInfo;
@@ -18,8 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import android.util.Log;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import au.com.bytecode.opencsv.CSVWriter;
 
 import static org.texaslinuxfest.Constants.*;
 
@@ -34,7 +34,12 @@ public class TxlfscannerappActivity extends Activity {
 	
 	private boolean boothExhibitorMode;
 	private final static int SCANCODE = 0;
-	private final static int FILEPATHCODE = 1;
+	private final static int writeCSV = 1;
+	private final static int emailCSV = 2;
+	
+	private CSVWriter csvwriter = null;
+	private ContactDataSource datasource = null;
+	
 	
 	
     /** Called when the activity is first created. */
@@ -42,6 +47,11 @@ public class TxlfscannerappActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boothExhibitorMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("boothExhibitorMode", false);
+        if (boothExhibitorMode) {
+        	datasource = new ContactDataSource(this);
+        	datasource.open();
+        }
+        
         
         // build interface
         setContentView(R.layout.main);
@@ -168,6 +178,11 @@ public class TxlfscannerappActivity extends Activity {
                     // check if attendee or booth exhibitor mode
                     if (boothExhibitorMode) {
                     	// add to database
+                    	Contact newContact = datasource.createContact(name, email, w_phone, m_phone, title, company, web, address);
+                    	Context context = getApplicationContext();
+                    	CharSequence text = newContact.getName() + " added to Contacts";
+                    	int duration = Toast.LENGTH_LONG;
+                    	Toast.makeText(context, text, duration);
                     } else {
                     	// add the contact - display
                     	addContact(name, w_phone, m_phone, email, web, title, company, address);
@@ -178,24 +193,26 @@ public class TxlfscannerappActivity extends Activity {
                 }
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
-            } else if (requestCode == FILEPATHCODE) {
-            	// handle file path picked
-            	if (resultCode == RESULT_OK && intent !=null && intent.getData() != null) {
-            		String folderPath = intent.getData().getPath();
-            	}
             }
         }
     }
     
-    public void pickFolder(File aFolder) {
-    	Intent intent= new Intent(Intent.ACTION_PICK);
-    	intent.setData(Uri.parse("folder://"+aFolder.getPath()));
-    	intent.putExtra(Intent.EXTRA_TITLE,"Pick Save Location");
-    	intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-    	try {
-    		startActivityForResult(intent, FILEPATHCODE);
-    	} catch (Exception e) {
-    		e.printStackTrace();
+    public void saveToCSV() {
+    	try 
+    	{
+    	    csvwriter = new CSVWriter(new FileWriter(Environment.getExternalStorageDirectory()+"/TexasLinuxFestival.csv"), ',');
+    	    List<Contact> contacts = datasource.getAllContacts();
+    	    String[] header = {"name","email","phone_work", "phone_mobile", "title",
+    	    		"company", "www", "address"};
+    	    csvwriter.writeNext(header);
+    	    for (Contact contact : contacts) {
+    	    	csvwriter.writeNext(contact.getValues());
+    	    }
+    	    csvwriter.close();
+    	} 
+    	catch (IOException e)
+    	{
+    	    e.printStackTrace();
     	}
     }
     
@@ -220,15 +237,23 @@ public class TxlfscannerappActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
+    	if (boothExhibitorMode) {
+    		if (menu.findItem(writeCSV) == null) menu.add(1, writeCSV, Menu.NONE, "Write CSV");
+    		if (menu.findItem(emailCSV) == null ) menu.add(2, emailCSV, Menu.NONE, "Email CSV");
+    	}
         return true;
     }
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-    	MenuItem toggle = menu.getItem(Menu.FIRST);
+    	MenuItem toggle = menu.findItem(R.id.menu_Booth);
     	if (boothExhibitorMode) {
     		toggle.setTitle("Attendee Mode");
+    		if (menu.findItem(writeCSV) == null) menu.add(1, writeCSV, Menu.NONE, "Write CSV");
+    		if (menu.findItem(emailCSV) == null ) menu.add(2, emailCSV, Menu.NONE, "Email CSV");
     	} else {
     		toggle.setTitle("Booth Exhibitor Mode");
+    		if (menu.findItem(writeCSV) != null) menu.removeItem(writeCSV);
+    		if (menu.findItem(emailCSV) != null ) menu.removeItem(emailCSV);
     	}
     	return true;
     }
@@ -238,12 +263,51 @@ public class TxlfscannerappActivity extends Activity {
         	case R.id.menu_Booth:
         		if (boothExhibitorMode) {
         			boothExhibitorMode = false;
+        			datasource.close();
+        			datasource = null;
         			Log.d(LOG_TAG,"Attendee Mode");
         		} else {
         			boothExhibitorMode = true;
+        			datasource = new ContactDataSource(this);
+                	datasource.open();
         			Log.d(LOG_TAG,"Booth Exhibitor Mode");
-        		}           
+        		}
+        		break;
+        	case writeCSV:
+        		Log.d(LOG_TAG,"Saving to CSV on SDcard");
+        		saveToCSV();
+        		break;
+        	case emailCSV:
+        		Log.d(LOG_TAG,"Emailing CSV");
+        		saveToCSV();
+        		Intent intent = new Intent(Intent.ACTION_SEND);
+        		intent.setType("text/plain");
+        		intent.putExtra(Intent.EXTRA_SUBJECT, "TXLF 2012 CSV");
+        		intent.putExtra(Intent.EXTRA_TEXT, "Texas Linux Fest 2012 Contact csv");
+        		File file = new File(Environment.getExternalStorageDirectory(),"TexasLinuxFestival.csv");
+        		if (!file.exists() || !file.canRead()) {
+        			Log.e(LOG_TAG,"Could not load CSV");
+        			Toast.makeText(getApplicationContext(), "Could not load CSV", Toast.LENGTH_SHORT);
+        			break;
+        		}
+        		Uri uri = Uri.fromFile(file);
+        		intent.putExtra(Intent.EXTRA_STREAM, uri);
+        		startActivity(Intent.createChooser(intent, "Send email..."));
+        		break;
         }
         return true;
+    }
+    @Override
+    protected void onResume() {
+    	if (boothExhibitorMode) {
+    		datasource.open();
+    	}
+    	super.onResume();
+    }
+    protected void onPause() {
+    	if (boothExhibitorMode) {
+    		datasource.close();
+    	}
+    	super.onPause();
     }
 }
