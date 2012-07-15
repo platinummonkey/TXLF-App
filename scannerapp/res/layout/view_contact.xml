@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:background="@color/bgcolorWhite">
+
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+
+         <TextView
+             android:id="@+id/viewContact_name"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" 
+             style="@style/ContactName" />
+
+     </TableRow>
+     
+     <View
+         android:layout_height="2dip"
+         android:background="#333333" />
+	<TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Job Title: "
+             style="@style/ContactItemLabel" />
+         <TextView
+             android:id="@+id/viewContact_title"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem" />
+     </TableRow>
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Company: "
+             style="@style/ContactItemLabel" />
+         <TextView
+             android:id="@+id/viewContact_company"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem" />
+     </TableRow>
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >   
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Email: "
+             style="@style/ContactItemLabel" />
+         <TextView
+             android:id="@+id/viewContact_email"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem"
+             android:onClick="onEmailClick"
+	    	 android:clickable="true" />   
+     </TableRow>
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Work Phone: "
+             style="@style/ContactItemLabel"/>
+         <TextView
+             android:id="@+id/viewContact_workphone"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem"
+             android:onClick="onWPhoneClick"
+	    	 android:clickable="true" />
+     </TableRow>
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Cell Phone: "
+             style="@style/ContactItemLabel" />
+         <TextView
+             android:id="@+id/viewContact_mobilephone"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem"
+             android:onClick="onMPhoneClick"
+	    	 android:clickable="true" />
+     </TableRow>
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Website: "
+             style="@style/ContactItemLabel" />
+         <TextView
+             android:id="@+id/viewContact_website"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem"
+             android:onClick="onWWWClick"
+	    	 android:clickable="true" />
+     </TableRow>
+     <TableRow
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Address: "
+             style="@style/ContactItemLabel" />
+         <TextView
+             android:id="@+id/viewContact_address"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/ContactItem"
+             android:onClick="onAddressClick"
+	    	 android:clickable="true" />
+     </TableRow>
+</TableLayout>

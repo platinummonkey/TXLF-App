@@ -1,6 +1,11 @@
 package org.texaslinuxfest;
 
-public class Contact {
+import java.io.Serializable;
+
+import android.app.Application;
+
+@SuppressWarnings("serial")
+public class Contact extends Application implements Serializable {
 	private long id;
 	private String name;
 	private String phone_work;
@@ -19,6 +24,27 @@ public class Contact {
 	}
 	public String getName() {
 		return this.name;
+	}
+	public String getEmail() {
+		return this.email;
+	}
+	public String getWorkPhone() {
+		return this.phone_work;
+	}
+	public String getMobilePhone() {
+		return this.phone_mobile;
+	}
+	public String getJobTitle() {
+		return this.title;
+	}
+	public String getCompany() {
+		return this.company;
+	}
+	public String getWebsite() {
+		return this.www;
+	}
+	public String getAddress() {
+		return this.address;
 	}
 	public String[] getValues() {
 		String[] vlist = {name, email, phone_work, phone_mobile, title, company,

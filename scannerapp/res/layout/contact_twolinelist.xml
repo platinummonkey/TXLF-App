@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="70dip"
+  android:padding="6dip">
+		<TextView
+      		android:id="@+id/contact_name"
+      		android:text="John Doe"
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+      		android:gravity="center_vertical"
+      		android:textSize="22dip"
+      		android:textColor="#006772"/>
+      	<TextView
+      		android:id="@+id/contact_email"
+      		android:text="john.doe@email.com"
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+      		android:gravity="center_vertical"
+      		android:textSize="12dip"
+      		android:textColor="#006772"
+      		android:paddingLeft="5dip"  />
+        <TextView
+    		android:id="@+id/contact_titlecompany"
+    		android:text="Sr. Admin - Some Company"
+      		android:layout_width="fill_parent"
+      		android:layout_height="wrap_content"
+      		android:singleLine="true"
+      		android:textSize="12dip"
+      		android:textColor="#006772"
+      		android:paddingLeft="5dip" />
+</LinearLayout>

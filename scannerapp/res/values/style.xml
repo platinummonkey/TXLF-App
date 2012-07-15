@@ -12,6 +12,17 @@
     <color name="color2g1">#f89c32</color>
     <color name="color2g2">#e78e28</color>
     
+    <style name="ContactName">
+        <item name="android:textColor">@color/color1</item>
+        <item name="android:textSize">22dip</item>
+    </style>
+    <style name="ContactItemLabel" parent="@style/ContactName">
+        <item name="android:textSize">15dip</item>
+    </style>
+    <style name="ContactItem" parent="@style/ContactItemLabel">
+        <item name="android:textColor">@color/color2</item>
+    </style>
+    
     <style name="LinearLayoutThemeHeader">
         <item name="android:layout_width">fill_parent</item>
     	<item name="android:layout_height">wrap_content</item>

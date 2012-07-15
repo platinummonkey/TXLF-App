@@ -2,4 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_Booth"
         android:title="Toggle Booth Exhibitor Mode" />
+    <item android:id="@+id/menu_ViewContacts"
+        android:title="View TXLF Contacts" />
+    <group android:id="@+id/CSVgroup">
+        <item android:id="@+id/menu_writeCSV"
+            android:title="Save to CSV" />
+        <item android:id="@+id/menu_emailCSV"
+            android:title="Email CSV" />
+    </group>
 </menu>
