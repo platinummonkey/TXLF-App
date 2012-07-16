@@ -89,7 +89,7 @@ public class ViewContact extends Activity {
     public void onAddressClick(View v) {
     	// launch web browswer view of venue website
     	Intent i = new Intent(Intent.ACTION_VIEW);
-    	i.setData(Uri.parse(contact.getAddress()));
+    	i.setData(Uri.parse("maps.google.com/maps?q="+contact.getAddress()));
     	startActivity(i);
     }
 }
