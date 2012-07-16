@@ -20,8 +20,8 @@ public class ContactDataSource {
 			ContactSQLiteHelper.COL_MOBILE_PHONE,
 			ContactSQLiteHelper.COL_JOB_TITLE,
 			ContactSQLiteHelper.COL_COMPANY,
-			ContactSQLiteHelper.COL_ADDRESS,
-			ContactSQLiteHelper.COL_WEBSITE};
+			ContactSQLiteHelper.COL_WEBSITE,
+			ContactSQLiteHelper.COL_ADDRESS};
 	
 	public ContactDataSource(Context context) {
 		dbHelper = new ContactSQLiteHelper(context);
