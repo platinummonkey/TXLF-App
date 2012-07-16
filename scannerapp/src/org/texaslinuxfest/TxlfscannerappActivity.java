@@ -3,6 +3,7 @@ package org.texaslinuxfest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import java.io.File;
 import java.io.FileWriter;
@@ -37,13 +38,14 @@ public class TxlfscannerappActivity extends Activity {
 	private CSVWriter csvwriter = null;
 	private ContactDataSource datasource = null;
 	
+	private SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 	
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boothExhibitorMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("boothExhibitorMode", false);
+        boothExhibitorMode = pref.getBoolean("BOOTHEXHIBITORMODE", false);
         datasource = new ContactDataSource(this);
         datasource.open();
         
@@ -142,6 +144,7 @@ public class TxlfscannerappActivity extends Activity {
     
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     	datasource.open();
+    	boothExhibitorMode = pref.getBoolean("BOOTHEXHIBITORMODE", false);
         if (requestCode == SCANCODE) {
             if (resultCode == RESULT_OK) {
                 String contents = intent.getStringExtra("SCAN_RESULT");
@@ -283,6 +286,9 @@ public class TxlfscannerappActivity extends Activity {
                 	//datasource.open();
         			Log.d(LOG_TAG,"Booth Exhibitor Mode");
         		}
+        		SharedPreferences.Editor editor = pref.edit();
+    			editor.putBoolean("BOOTHEXHIBITORMODE", boothExhibitorMode);
+    			editor.commit();
         		break;
         	case R.id.menu_ViewContacts:
         		Log.d(LOG_TAG,"Chose viewContacts");
