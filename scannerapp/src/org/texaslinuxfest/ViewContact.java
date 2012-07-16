@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -63,33 +64,33 @@ public class ViewContact extends Activity {
         this.caddress.setText(contact.getAddress());
     }
     public void onWWWClick(View v) {
-    	// launch web browswer view of venue website
+    	// launch web browswer view website
     	Intent i = new Intent(Intent.ACTION_VIEW);
     	i.setData(Uri.parse(contact.getWebsite()));
     	startActivity(i);
     }
     public void onEmailClick(View v) {
-    	// launch web browswer view of venue website
+    	// launch email client to send email
     	Intent i = new Intent(Intent.ACTION_VIEW);
     	i.setData(Uri.parse("mailto://"+contact.getEmail()));
     	startActivity(i);
     }
     public void onMPhoneClick(View v) {
-    	// launch web browswer view of venue website
-    	Intent i = new Intent(Intent.ACTION_CALL);
-    	i.setData(Uri.parse(contact.getMobilePhone()));
+    	// launch dialer to call person
+    	Intent i = new Intent(Intent.ACTION_DIAL);
+    	i.setData(Uri.parse("tel:"+contact.getMobilePhone()));
     	startActivity(i);
     }
     public void onWPhoneClick(View v) {
-    	// launch web browswer view of venue website
-    	Intent i = new Intent(Intent.ACTION_CALL);
-    	i.setData(Uri.parse(contact.getWorkPhone()));
+    	// launch dialer to call person
+    	Intent i = new Intent(Intent.ACTION_DIAL);
+    	i.setData(Uri.parse("tel:"+contact.getWorkPhone()));
     	startActivity(i);
     }
     public void onAddressClick(View v) {
-    	// launch web browswer view of venue website
+    	// launch gmaps to view address
     	Intent i = new Intent(Intent.ACTION_VIEW);
-    	i.setData(Uri.parse("maps.google.com/maps?q="+contact.getAddress()));
+    	i.setData(Uri.parse("http://maps.google.com/maps?q="+TextUtils.htmlEncode(contact.getAddress())));
     	startActivity(i);
     }
 }

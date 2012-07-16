@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="color1">#489ec8</color>
     <color name="color2">#f8992b</color>
     <color name="colorWhite">#ffffff</color>
@@ -11,6 +11,13 @@
     <color name="color1g2">#3f89ae</color>
     <color name="color2g1">#f89c32</color>
     <color name="color2g2">#e78e28</color>
+    
+    <style name="ContactTableRow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">2dip</item>
+        <item name="android:paddingBottom">2dip</item>
+    </style>
     
     <style name="ContactName">
         <item name="android:textColor">@color/color1</item>

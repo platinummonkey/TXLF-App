@@ -5,7 +5,7 @@ import java.io.Serializable;
 import android.app.Application;
 
 @SuppressWarnings("serial")
-public class Contact extends Application implements Serializable {
+public class Contact extends Application implements Comparable<Contact>, Serializable {
 	private long id;
 	private String name;
 	private String phone_work;
@@ -62,5 +62,16 @@ public class Contact extends Application implements Serializable {
 		this.company = company;
 		this.www = www;
 		this.address = address;
+	}
+	public boolean equals(Object o) {
+		if (!(o instanceof Contact))
+			return false;
+		Contact c = (Contact) o;
+		return c.name.equals(name);
+	}
+	public int compareTo(Contact c) {
+		int acmp = name.compareTo(c.name);
+		return (acmp != 0 ? acmp :
+			email.compareTo(c.email));
 	}
 }

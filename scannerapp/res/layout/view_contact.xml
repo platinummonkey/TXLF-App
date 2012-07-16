@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MainLinearLayout">
+    <include layout="@layout/header" android:layout_height="wrap_content" android:id="@+id/include1" android:layout_width="match_parent"></include>
 <TableLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
      android:layout_width="match_parent"
      android:layout_height="match_parent"
      android:background="@color/bgcolorWhite">
 
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow">
 
          <TextView
              android:id="@+id/viewContact_name"
@@ -21,8 +23,7 @@
          android:layout_height="2dip"
          android:background="#333333" />
 	<TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow" >
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -35,8 +36,7 @@
              style="@style/ContactItem" />
      </TableRow>
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow" >
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -49,8 +49,7 @@
              style="@style/ContactItem" />
      </TableRow>
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >   
+         style="@style/ContactTableRow" >   
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -65,8 +64,7 @@
 	    	 android:clickable="true" />   
      </TableRow>
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow" >
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -81,8 +79,7 @@
 	    	 android:clickable="true" />
      </TableRow>
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow" >
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -97,8 +94,7 @@
 	    	 android:clickable="true" />
      </TableRow>
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow" >
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -113,8 +109,7 @@
 	    	 android:clickable="true" />
      </TableRow>
      <TableRow
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" >
+         style="@style/ContactTableRow" >
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
@@ -129,3 +124,4 @@
 	    	 android:clickable="true" />
      </TableRow>
 </TableLayout>
+</LinearLayout>

@@ -1,6 +1,7 @@
 package org.texaslinuxfest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -79,6 +80,7 @@ public class ContactDataSource {
 		}
 		// Make sure to close the cursor
 		cursor.close();
+		Collections.sort(contacts);
 		return contacts;
 	}
 
